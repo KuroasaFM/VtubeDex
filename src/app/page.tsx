@@ -1,22 +1,17 @@
-import Link from "next/link";
+"use client";
 
-import { LatestPost } from "~/app/_components/post";
-import { api, HydrateClient } from "~/trpc/server";
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, UserProfile, useUser } from "@clerk/nextjs";
+import { SidebarProvider } from "~/components/ui/sidebar";
 
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
 
-  void api.post.getLatest.prefetch();
+export default function Home() {
+
 
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-black text-slate-100">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight">
-            My App
-          </h1>
-        </div>
-      </main>
-    </HydrateClient>
+      <div className="flex flex-col justify-center items-center h-full w-full">
+        <h1 className="text-5xl font-extrabold tracking-tight">
+          VtubeDex
+        </h1>
+      </div>
   );
 }
