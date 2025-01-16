@@ -1,4 +1,4 @@
-import { SignedOut, SignInButton, SignedIn, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignedOut, SignInButton, SignedIn, SignOutButton } from "@clerk/nextjs";
 import { SidebarHeader, SidebarContent, SidebarGroup, SidebarFooter, Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "./ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
 import { CalendarRangeIcon, ChartColumnIcon, DoorClosedIcon, DoorOpenIcon, HomeIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, TvIcon, UserIcon, UsersIcon } from "lucide-react";
@@ -41,8 +41,8 @@ export async function AppSidebar() {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
-        <div>
-          <div className="text-2xl font-display font-bold italic tracking-tighter select-none">VtubeDex</div>
+        <div className="p-2">
+          <div className="text-2xl font-display font-bold italic tracking-tighter select-none text-neutral-500 hover:text-neutral-400 transition-all">VtubeDex</div>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -65,13 +65,13 @@ export async function AppSidebar() {
       <SidebarFooter>
         <SignedOut>
           <SignInButton>
-            <Button color="white">Connexion</Button>
+            <Button variant="ghost">Connexion</Button>
           </SignInButton>
         </SignedOut>
         <SignedIn>
           <DropdownMenu>
 
-            <DropdownMenuTrigger className="outline-none ring-none">
+            <DropdownMenuTrigger className="outline-none ring-none p-2">
               <div className="flex flex-col gap-2 w-full">
                 <div className="flex flex-row items-center gap-2">
                   {user && <Image src={user.imageUrl} alt="userprofile" width={10} height={10} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />
@@ -95,11 +95,13 @@ export async function AppSidebar() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="font-display text-xs select-none text-neutral-500 italic -mb-1">Gestion du compte</DropdownMenuLabel>
-              <DropdownMenuItem><UserIcon /> Profil & Sécurité
+              <Link href="/profile">
+                <DropdownMenuItem>
+                  <UserIcon /> Profil & Sécurité
+                </DropdownMenuItem>
+              </Link>
 
-              </DropdownMenuItem>
               <SignOutButton>
-
                 <DropdownMenuItem><DoorOpenIcon /> Déconnexion </DropdownMenuItem>
               </SignOutButton>
             </DropdownMenuContent>
