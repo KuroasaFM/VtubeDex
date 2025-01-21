@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import db from "~/server/db";
 
 // Mocked DB
 interface Post {
@@ -33,6 +34,14 @@ export const postRouter = createTRPCRouter({
       posts.push(post);
       return post;
     }),
+
+  test: publicProcedure.query(async () => {
+
+
+
+    const response = await db.select("vtuber");
+    return response;
+  }),
 
   getLatest: publicProcedure.query(() => {
     return posts.at(-1) ?? null;

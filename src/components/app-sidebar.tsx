@@ -1,7 +1,7 @@
 import { SignedOut, SignInButton, SignedIn, SignOutButton } from "@clerk/nextjs";
-import { SidebarHeader, SidebarContent, SidebarGroup, SidebarFooter, Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "./ui/sidebar";
+import { SidebarHeader, SidebarContent, SidebarGroup, SidebarFooter, Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroupLabel } from "./ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
-import { CalendarRangeIcon, ChartColumnIcon, DoorClosedIcon, DoorOpenIcon, HomeIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, TvIcon, UserIcon, UsersIcon } from "lucide-react";
+import { DoorOpenIcon, HomeIcon, ImportIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, TvIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -16,23 +16,28 @@ const sidebarItems = [
   {
     title: "Streams",
     icon: TvIcon,
-    href: "streams"
+    href: "/streams"
   },
   {
-    title: "Évenements",
-    icon: CalendarRangeIcon,
-    href: "/",
+    title: "Vtubers",
+    icon: UserIcon,
+    href: "/vtubers"
   },
-  {
-    title: "Groupes",
-    icon: UsersIcon,
-    href: "/",
-  },
-  {
-    title: "Statistiques",
-    icon: ChartColumnIcon,
-    href: "/",
-  },
+  // {
+  //   title: "Évenements",
+  //   icon: CalendarRangeIcon,
+  //   href: "/",
+  // },
+  // {
+  //   title: "Groupes",
+  //   icon: UsersIcon,
+  //   href: "/",
+  // },
+  // {
+  //   title: "Statistiques",
+  //   icon: ChartColumnIcon,
+  //   href: "/",
+  // },
 ]
 export async function AppSidebar() {
 
@@ -60,7 +65,18 @@ export async function AppSidebar() {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        <SidebarGroup />
+        <SidebarGroup>
+
+          <SidebarGroupLabel>Mon Vtubedex</SidebarGroupLabel>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <div>
+                <LayoutDashboardIcon />
+                <span>Dashboard</span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SignedOut>
@@ -87,12 +103,25 @@ export async function AppSidebar() {
               <DropdownMenuLabel className="flex justify-center">{user?.fullName}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="font-display text-xs select-none text-neutral-500 italic -mb-1">Mon VtubeDex</DropdownMenuLabel>
-              <DropdownMenuItem><SquareArrowOutUpRightIcon /> Ma Chaine Twitch </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LayoutDashboardIcon />
-                Mon Dashboard
-                <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              {
+                !!user?.publicMetadata.has_imported_channel && <div>
+
+                  <DropdownMenuItem><SquareArrowOutUpRightIcon /> Ma Chaine Twitch </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <LayoutDashboardIcon />
+                    Mon Dashboard
+                    <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </div>
+              }
+              {
+                !user?.publicMetadata.has_imported_channel && <div>
+                  <Link href={"/dashboard"}>
+                    <DropdownMenuItem><ImportIcon /> Importer ma chaine twitch </DropdownMenuItem>
+                  </Link>
+
+                </div>
+              }
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="font-display text-xs select-none text-neutral-500 italic -mb-1">Gestion du compte</DropdownMenuLabel>
               <Link href="/profile">
