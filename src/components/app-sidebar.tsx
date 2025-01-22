@@ -65,18 +65,24 @@ export async function AppSidebar() {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        <SidebarGroup>
 
-          <SidebarGroupLabel>Mon Vtubedex</SidebarGroupLabel>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <div>
-                <LayoutDashboardIcon />
-                <span>Dashboard</span>
-              </div>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarGroup>
+        <SignedIn>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>Mon Vtubedex</SidebarGroupLabel>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href="/dashboard">
+                  <LayoutDashboardIcon />
+                  <span>Dashboard</span>
+                  <div className="animate-ping h-2 w-2 bg-purple-500 rounded-full absolute top-0 left-0"></div>
+                  <div className="h-2 w-2 bg-purple-500/50 rounded-full absolute top-0 left-0"></div>
+
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarGroup>
+        </SignedIn>
       </SidebarContent>
       <SidebarFooter>
         <SignedOut>

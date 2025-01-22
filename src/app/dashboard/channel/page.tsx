@@ -6,6 +6,7 @@ import { LoaderCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
+import { Switch } from "~/components/ui/switch";
 import { api } from "~/trpc/react";
 
 export default function DashboardChannel() {
@@ -64,5 +65,24 @@ export default function DashboardChannel() {
         }
       </div>
     </div>}
+    {
+      !show_import && <div className="p-16">
+        <div className=" rounded-lg bg-neutral-900">
+          <h1 className="p-8 pt-7 pb-4 font-display tracking-tighter font-bold italic text-2xl">Ma Chaine</h1>
+          <hr />
+          <div className="p-8">
+            <div className="flex flex-row-reverse items-center">
+              <div className="w-2/3 pl-8 ">
+                <div className="tracking-tight">Cacher ma chaine</div>
+                <p className="text-sm text-neutral-500"> En activant cette option, votre chaine twitch sera totalement invisible sur le site. Vous n'apparaitrez ni dans les streams, ni dans les recherches de Vtubers</p>
+              </div>
+              <div className="pr-8 border-r h-full">
+                <Switch className="dark" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   </div >
 }
