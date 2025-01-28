@@ -24,7 +24,7 @@ export default function DashboardHome() {
     <h1 className="font-display font-bold italic text-4xl">Dashboard</h1>
     {
       !user?.publicMetadata.has_imported_channel &&
-      <div className="rounded-lg border border-purple-800 bg-gradient-to-bl flex items-center to-neutral-950 from-purple-500/50 p-4">
+      <div className="rounded-lg border border-purple-800 bg-linear-to-bl flex items-center to-neutral-950 from-purple-500/50 p-4">
         <span>Importez votre chaine twitch !</span>
         <div className="grow" />
         <Link href={"/dashboard/channel"}>

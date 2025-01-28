@@ -93,7 +93,7 @@ export async function AppSidebar() {
         <SignedIn>
           <DropdownMenu>
 
-            <DropdownMenuTrigger className="outline-none ring-none p-2">
+            <DropdownMenuTrigger className="outline-hidden ring-none p-2">
               <div className="flex flex-col gap-2 w-full">
                 <div className="flex flex-row items-center gap-2">
                   {user && <Image src={user.imageUrl} alt="userprofile" width={10} height={10} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />

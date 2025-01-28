@@ -29,7 +29,7 @@ export default function DashboardChannel() {
 
   return <div className="flex flex-col h-full w-full">
     {show_import && <div className="grow flex items-center justify-center p-8 lg:w-2/3 2xl:w-1/3  w-full m-auto">
-      <div className="min-w-64 border border-purple-800 rounded-lg p-8 pt-7 transition-all from-neutral-950/50 to-purple-900/20 bg-gradient-to-b shadow-md shadow-purple-400/30">
+      <div className="min-w-64 border border-purple-800 rounded-lg p-8 pt-7 transition-all from-neutral-950/50 to-purple-900/20 bg-linear-to-b shadow-md shadow-purple-400/30">
         {
           !!isIdle && <div>
             <div className="flex items-center mb-8 gap-2">
