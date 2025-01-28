@@ -3,6 +3,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { type Vtuber } from "../schemas/vtuber";
 import { z } from "zod";
 
+import { RecordId } from "surrealdb"
 
 export const vtuberRouter = createTRPCRouter({
   find: publicProcedure.query(async () => {
@@ -15,5 +16,8 @@ export const vtuberRouter = createTRPCRouter({
       throw new Error(`No Vtuber found for login ${input.login}`)
     }
     return response[0][0];
+  }),
+  setHidden: publicProcedure.input(z.object({ login: z.string(), isHidden: z.boolean() })).mutation(async ({ input }) => {
+    const response = await db.update(new RecordId("vtuber", input.login), { isHidden: input.isHidden });
   }),
 })
