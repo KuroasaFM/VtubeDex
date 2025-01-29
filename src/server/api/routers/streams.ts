@@ -1,10 +1,12 @@
 import db from "~/server/db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { type Vtuber } from "../schemas/vtuber";
+import { RecordId } from "surrealdb"
 
 import twitch from "~/server/twitch";
+
 import { type TwitchStream } from "../types/twitch";
 import { type Stream } from "../schemas/stream";
+import { type Vtuber } from "../schemas/vtuber";
 
 export const streamsRouter = createTRPCRouter({
   updateStreamCache: publicProcedure.mutation(async () => {
@@ -22,6 +24,9 @@ export const streamsRouter = createTRPCRouter({
   }),
   find: publicProcedure.query(async () => {
     await db.delete("streams");
+
+    await db.update(new RecordId("states", "last_stream_cache_update"), { value: Date.now().toString() })
+
     const vtubers = await db.select<Vtuber>("vtuber");
 
     console.log(vtubers)

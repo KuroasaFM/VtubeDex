@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 const sidebarItems = [
   {
@@ -46,8 +47,11 @@ export async function AppSidebar() {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
-        <div className="p-2">
-          <div className="text-2xl font-display font-bold italic tracking-tighter select-none text-neutral-500 hover:text-neutral-400 transition-all">VtubeDex</div>
+        <div className="p-2 flex items-end">
+          <div className="text-2xl font-display font-bold italic tracking-tighter select-none text-neutral-500 hover:text-neutral-400 transition-all">
+            VtubeDex
+          </div>
+          <Badge variant={"outline"} className="scale-90">α</Badge>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -77,7 +81,6 @@ export async function AppSidebar() {
                   <span>Dashboard</span>
                   <div className="animate-ping h-2 w-2 bg-purple-500 rounded-full absolute top-0 left-0"></div>
                   <div className="h-2 w-2 bg-purple-500/50 rounded-full absolute top-0 left-0"></div>
-
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -113,11 +116,14 @@ export async function AppSidebar() {
                 !!user?.publicMetadata.has_imported_channel && <div>
 
                   <DropdownMenuItem><SquareArrowOutUpRightIcon /> Ma Chaine Twitch </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <LayoutDashboardIcon />
-                    Mon Dashboard
-                    <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-                  </DropdownMenuItem>
+
+                  <Link href={"/dashboard"}>
+                    <DropdownMenuItem>
+                      <LayoutDashboardIcon />
+                      Mon Dashboard
+                      <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </Link>
                 </div>
               }
               {
