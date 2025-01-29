@@ -49,6 +49,7 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.10",

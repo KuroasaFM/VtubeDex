@@ -1,17 +1,18 @@
 import twitch from "~/server/twitch";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
-import { type TwitchUser } from "../types/twitch";
+import { type TwitchStream, type TwitchUser } from "../types/twitch";
 import db from "~/server/db";
 import { RecordId } from "surrealdb"
 import { type Vtuber } from "../schemas/vtuber";
 import { currentUser, clerkClient } from '@clerk/nextjs/server'
+import { type Stream } from "../schemas/stream";
 
 
 
 export const twitchRouter = createTRPCRouter({
   users: publicProcedure.query(async () => {
-    const response = await twitch.get("/users", {
+    const response = await twitch.get<{ data: TwitchUser[] }>("/users", {
       params: {
         login: "neonkuroasa"
       }
@@ -20,7 +21,16 @@ export const twitchRouter = createTRPCRouter({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return response.data
   }),
+  streams: publicProcedure.query(async () => {
+    const response = await twitch.get("/streams", {
+      params: {
+        language: "fr"
+      }
+    })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return response.data
+  }),
   importUser: publicProcedure.input(z.object({
     login: z.string()
   })).mutation(async ({ input }) => {

@@ -20,16 +20,21 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable} dark`}>
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
         <body>
           <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
               <SidebarTrigger className="m-2 absolute" />
-              <TRPCReactProvider>{children}</TRPCReactProvider>
+              <TRPCReactProvider>
+                {children}
+              </TRPCReactProvider>
             </SidebarInset>
           </SidebarProvider>
         </body>
       </html>
-    </ClerkProvider>
+    </ClerkProvider >
   );
 }
