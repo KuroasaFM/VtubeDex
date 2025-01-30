@@ -46,7 +46,8 @@
     "tailwindcss-animate": "^1.0.7",
     "twitch": "^4.6.7",
     "twitch-auth": "^4.6.7",
-    "zod": "^3.23.3"
+    "zod": "^3.23.3",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@tailwindcss/container-queries": "^0.1.1",

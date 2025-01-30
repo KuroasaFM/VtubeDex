@@ -1,27 +1,19 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { TvIcon, TvMinimalIcon } from "lucide-react";
+import { TvIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
-import { type Vtuber } from "~/server/api/schemas/vtuber";
-import { api } from "~/trpc/react";
 import Image from "next/image";
+import { useUserStore } from "~/providers/user-store-provider";
 
 export default function DashboardHome() {
+
   const { user } = useUser();
+  const vtuber = useUserStore((s) => s.current_vtuber)
 
-  const [vtuber, setVtuber] = useState<Vtuber>();
-
-  const { data } = api.vtuber.findOne.useQuery({ login: user?.username ?? "" });
-
-  useEffect(() => {
-    setVtuber(data);
-  }, [data])
-
-  return <div className="h-full w-full p-8 flex flex-col gap-8">
-    <h1 className="font-display font-bold italic text-4xl">Dashboard</h1>
+  return <div className="h-full w-full p-8 pt-12 flex flex-col gap-8">
+    <h1 className="font-display font-bold italic text-4xl tracking-tighter">Dashboard</h1>
     {
       !user?.publicMetadata.has_imported_channel &&
       <div className="rounded-lg border border-purple-800 bg-linear-to-bl flex items-center to-neutral-950 from-purple-500/50 p-4">
@@ -44,13 +36,24 @@ export default function DashboardHome() {
         </span>
         <div className="grow" />
         <Link href={"/dashboard/channel"}>
-          <Button className="self-end" variant={'secondary'}><TvIcon /> Ma Chaine</Button>
+          <Button className="self-end cursor-pointer" variant={'secondary'}><TvIcon /> Ma Chaine</Button>
         </Link>
       </div>
     }
 
     <div>
       <div className="grid grid-cols-2 gap-8">
+        <div className="bg-neutral-900 rounded-lg p-8">
+          <h2 className="text-xl font-display font-bold italic tracking-tighter ">Ici prochainement</h2>
+          <ul className="list-disc list-inside text-neutral-500 my-4">
+            <li>Editer votre page Wiki VtubeDex</li>
+            <li>Stocker et distribuer vos assets: pngs, logos, etc.</li>
+            <li>Mettre en avant vos groupes, vos organisations, vos associations</li>
+            <li>Publier des infos sur vos évenements (redébuts, tournois, serveurs RP, etc.) et vos plannings de stream</li>
+            <li>Centraliser l&apos;accès aux épisodes de vos émissions</li>
+          </ul>
+          <span>Stay tuned !</span>
+        </div>
         <div className="aspect-video border-2 border-dotted rounded-lg"></div>
         <div className="aspect-video border-2 border-dotted rounded-lg"></div>
         <div className="aspect-video border-2 border-dotted rounded-lg"></div>

@@ -1,12 +1,11 @@
 import twitch from "~/server/twitch";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
-import { type TwitchStream, type TwitchUser } from "../types/twitch";
+import { type TwitchUser } from "../types/twitch";
 import db from "~/server/db";
 import { RecordId } from "surrealdb"
 import { type Vtuber } from "../schemas/vtuber";
 import { currentUser, clerkClient } from '@clerk/nextjs/server'
-import { type Stream } from "../schemas/stream";
 
 
 

@@ -13,5 +13,6 @@ export type Stream = {
   language: string,
   thumbnail_url: string,
   tag_ids: string[],
-  is_mature: boolean
+  is_mature: boolean,
+  length?: string
 }

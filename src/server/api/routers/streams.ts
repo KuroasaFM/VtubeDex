@@ -37,11 +37,30 @@ export const streamsRouter = createTRPCRouter({
     })
 
     for (const stream of response.data.data) {
+      console.log(stream);
       await db.create<Stream>("streams", stream)
     }
 
     const streams = await db.select<Stream>("streams");
 
-    return streams
+    return streams.map(stream => {
+      const date = Date.parse(stream.started_at);
+      const stream_lenght_millis = Date.now() - date
+      return {
+        ...stream,
+        length: msToTime(stream_lenght_millis)
+      }
+    }).sort((a, b) => Date.parse(a.started_at) > Date.parse(b.started_at) ? -1 : 1);
+
   }),
 })
+
+function msToTime(duration: number) {
+  const minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  const hours_str = (hours < 10) ? "0" + hours : hours;
+  const minutes_str = (minutes < 10) ? "0" + minutes : minutes;
+
+  return hours_str + ":" + minutes_str;
+}

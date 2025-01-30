@@ -7,6 +7,7 @@ import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { env } from "process";
 
 const sidebarItems = [
   {
@@ -19,11 +20,11 @@ const sidebarItems = [
     icon: TvIcon,
     href: "/streams"
   },
-  {
-    title: "Vtubers",
-    icon: UserIcon,
-    href: "/vtubers"
-  },
+  // {
+  //   title: "Vtubers",
+  //   icon: UserIcon,
+  //   href: "/vtubers"
+  // },
   // {
   //   title: "Évenements",
   //   icon: CalendarRangeIcon,
@@ -51,10 +52,14 @@ export async function AppSidebar() {
           <div className="text-2xl font-display font-bold italic tracking-tighter select-none text-neutral-500 hover:text-neutral-400 transition-all">
             VtubeDex
           </div>
-          <Badge variant={"outline"} className="scale-90">α</Badge>
+          <Badge variant={"outline"} className="scale-90">α0.1.0</Badge>
         </div>
       </SidebarHeader>
       <SidebarContent>
+        {
+          env.NODE_ENV == "development" &&
+          <Badge variant={"outline"} className="scale-90 bg-orange-500">Development environment</Badge>
+        }
         <SidebarGroup >
           <SidebarMenu>
             {sidebarItems.map((item) => (
@@ -79,8 +84,13 @@ export async function AppSidebar() {
                 <Link href="/dashboard">
                   <LayoutDashboardIcon />
                   <span>Dashboard</span>
-                  <div className="animate-ping h-2 w-2 bg-purple-500 rounded-full absolute top-0 left-0"></div>
-                  <div className="h-2 w-2 bg-purple-500/50 rounded-full absolute top-0 left-0"></div>
+                  {
+                    !user?.publicMetadata.has_imported_channel && <div>
+
+                      <div className="animate-ping h-2 w-2 bg-purple-500 rounded-full absolute top-0 left-0"></div>
+                      <div className="h-2 w-2 bg-purple-500/50 rounded-full absolute top-0 left-0"></div>
+                    </div>
+                  }
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -96,8 +106,8 @@ export async function AppSidebar() {
         <SignedIn>
           <DropdownMenu>
 
-            <DropdownMenuTrigger className="outline-hidden ring-none p-2">
-              <div className="flex flex-col gap-2 w-full">
+            <DropdownMenuTrigger className="outline-hidden ring-none p-2 hover:bg-neutral-800/50 transition-all rounded-lg cursor-pointer">
+              <div className="flex flex-col gap-2 w-full ">
                 <div className="flex flex-row items-center gap-2">
                   {user && <Image src={user.imageUrl} alt="userprofile" width={10} height={10} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />
                   }<div className="flex flex-col items-start">
@@ -107,7 +117,6 @@ export async function AppSidebar() {
                 </div>
               </div>
             </DropdownMenuTrigger>
-            {/* <SignOutButton /> */}
             <DropdownMenuContent sideOffset={6} className="w-60">
               <DropdownMenuLabel className="flex justify-center">{user?.fullName}</DropdownMenuLabel>
               <DropdownMenuSeparator />

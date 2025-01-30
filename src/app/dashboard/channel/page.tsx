@@ -1,19 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { LoaderCircleIcon } from "lucide-react";
+import { LoaderCircleIcon, SlashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Switch } from "~/components/ui/switch";
+import { useUserStore } from "~/providers/user-store-provider";
 import { api } from "~/trpc/react";
 
 export default function DashboardChannel() {
 
+  const { current_vtuber, setVtuber: set } = useUserStore((state) => state);
+  console.log("césupairent", current_vtuber);
   const { user } = useUser();
 
-  const { mutateAsync: importUser, isPending, isIdle } = api.twitch.importUser.useMutation()
+  const { mutateAsync: importUser, isIdle } = api.twitch.importUser.useMutation()
+
+  const { mutateAsync: setHidden } = api.vtuber.setHidden.useMutation();
+
 
   const importer = async () => {
     await importUser({ login: user!.username ?? "" });
@@ -21,10 +29,11 @@ export default function DashboardChannel() {
   }
 
   const [show_import, setShowImport] = useState(false);
-
   useEffect(() => {
     setShowImport(!user?.publicMetadata.has_imported_channel);
   }, [user])
+
+  if (!user) return <div></div>
 
 
   return <div className="flex flex-col h-full w-full">
@@ -66,18 +75,29 @@ export default function DashboardChannel() {
       </div>
     </div>}
     {
-      !show_import && <div className="p-16">
-        <div className=" rounded-lg bg-neutral-900">
-          <h1 className="p-8 pt-7 pb-4 font-display tracking-tighter font-bold italic text-2xl">Ma Chaine</h1>
-          <hr />
-          <div className="p-8">
-            <div className="flex flex-row-reverse items-center">
-              <div className="w-2/3 pl-8 ">
-                <div className="tracking-tight">Cacher ma chaine</div>
-                <p className="text-sm text-neutral-500"> En activant cette option, votre chaine twitch sera totalement invisible sur le site. Vous n'apparaitrez ni dans les streams, ni dans les recherches de Vtubers</p>
-              </div>
-              <div className="pr-8 border-r h-full">
-                <Switch className="dark" />
+      !show_import && <div className="flex-col px-8 pt-12">
+        <div>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+              <BreadcrumbSeparator>
+                <SlashIcon />
+              </BreadcrumbSeparator>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <h1 className="font-display font-bold italic text-4xl tracking-tighter">Ma Chaine</h1>
+        </div>
+        <div className="p-16">
+          <div className=" rounded-lg bg-neutral-900">
+            <div className="p-8">
+              <div className="flex flex-row-reverse items-center">
+                <div className="w-2/3 pl-8 ">
+                  <div className="tracking-tight">Cacher ma chaine</div>
+                  <p className="text-sm text-neutral-500"> En activant cette option, votre chaine twitch sera totalement invisible sur le site. Vous n'apparaitrez ni dans les streams, ni dans les recherches de Vtubers</p>
+                </div>
+                <div className="pr-8 border-r h-full">
+                  <Switch className="dark" onClick={(e) => setHidden({ login: user.id, isHidden: e.currentTarget.value === "true" })} />
+                </div>
               </div>
             </div>
           </div>

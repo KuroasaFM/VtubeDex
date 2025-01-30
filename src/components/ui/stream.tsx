@@ -1,4 +1,5 @@
 import { CircleIcon, DotIcon, UserIcon, Gamepad2Icon } from "lucide-react";
+import Image from "next/image";
 import { type Stream } from "~/server/api/schemas/stream";
 
 export default function Stream({ data }: { data: Stream }) {
@@ -6,14 +7,14 @@ export default function Stream({ data }: { data: Stream }) {
   return <div className="flex flex-col group bg-neutral-900 rounded-lg cursor-pointer ">
     <div className="aspect-video relative group-hover:scale-105 transition-all ease-in-out overflow-hidden cursor-pointer drop-shadow-md group-hover:drop-shadow-xl rounded-lg before:rounded-lg before:z-10 before:bg-transparent before:absolute before:h-full before:w-full before:block before-rounded-lg before:inset-shadow-sm before:inset-shadow-neutral-50/50 before:mix-blend-lighten before:ring before:ring-neutral-50/10 before:inset-ring-neutral-50 before:shadow-inner ">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="-z-1" src={data.thumbnail_url.replace("{width}", "1280").replace("{height}", "720")} alt="" />
+      <Image className="-z-1" src={data.thumbnail_url.replace("{width}", "1280").replace("{height}", "720")} alt="" width={1280} height={720} />
       <div className="flex z-20 absolute top-2 left-2 gap-2">
-        <div className=" px-3 py-2 rounded-md backdrop-blur-xs bg-neutral-500/20 text-xs flex gap-1 items-center text-neutral-200/50 group-hover:text-neutral-200 transition-all ease-in-out">
+        <div className=" px-3 py-2 rounded-md backdrop-blur-xs bg-neutral-800/55 text-xs flex gap-1 items-center text-neutral-200/50 group-hover:text-neutral-200 transition-all ease-in-out">
           <CircleIcon className="text-red-500" height={10} width={10} fill="red" />
-          <span className="font-bold">00:13</span>
+          <span className="font-bold">{data.length}</span>
           <DotIcon height={10} width={10} className="text-neutral-600" />
           <span className="">{data.viewer_count}</span>
-          <UserIcon className="text-neutral-600 group-hover:text-neutral-400 transition-all ease-in-out" height={10} width={10} />
+          <UserIcon className="group-hover:text-neutral-400 transition-all ease-in-out" height={10} width={10} />
         </div>
       </div>
       <div className="flex z-20 absolute bottom-2 left-2 gap-2 ">
@@ -25,7 +26,7 @@ export default function Stream({ data }: { data: Stream }) {
         </div>
       </div>
     </div>
-    <div className="flex flex-col w-full items-stretch box-border p-2 pt-2">
+    <div className="flex flex-col w-full items-stretch box-border p-3">
       <span className="tracking-tighter text-xs font-bold text-neutral-200">{data.user_name}</span>
       <span className="truncate text-xs text-neutral-500 ">{data.title}</span>
     </div>

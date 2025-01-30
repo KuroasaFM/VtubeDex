@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
@@ -7,6 +9,9 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { AppSidebar } from "~/components/app-sidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
+import { UserStoreProvider } from "~/providers/user-store-provider";
+
+
 
 export const metadata: Metadata = {
   title: "VtubeDex",
@@ -29,7 +34,9 @@ export default function RootLayout({
             <SidebarInset>
               <SidebarTrigger className="m-2 absolute" />
               <TRPCReactProvider>
-                {children}
+                <UserStoreProvider>
+                  {children}
+                </UserStoreProvider>
               </TRPCReactProvider>
             </SidebarInset>
           </SidebarProvider>
