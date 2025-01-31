@@ -5,7 +5,7 @@ import { createStore } from 'zustand/vanilla'
 import { type Vtuber } from '~/server/api/schemas/vtuber'
 
 export type UserState = {
-  current_vtuber: Omit<Vtuber> | null
+  current_vtuber: Vtuber | null
 }
 
 export type UserActions = {

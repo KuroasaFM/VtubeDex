@@ -29,7 +29,7 @@ export default async function RootLayout({
 
   let vtuber: Vtuber | null = null;
 
-  if (user?.username)
+  if (user?.username && user.publicMetadata.has_imported_channel)
     vtuber = await api.vtuber.findOne({ login: user.username });
 
 

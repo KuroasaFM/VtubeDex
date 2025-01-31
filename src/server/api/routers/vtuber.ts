@@ -18,6 +18,15 @@ export const vtuberRouter = createTRPCRouter({
     return response[0][0];
   }),
   setHidden: publicProcedure.input(z.object({ login: z.string(), isHidden: z.boolean() })).mutation(async ({ input }) => {
-    const response = await db.update(new RecordId("vtuber", input.login), { isHidden: input.isHidden });
+    const vtuber = await db.patch<Vtuber>(new RecordId("vtuber", input.login), [
+      {
+        op: "replace",
+        path: "isHidden",
+        value: input.isHidden
+      }
+    ]);
+
+    console.log(vtuber)
+    return vtuber;
   }),
 })

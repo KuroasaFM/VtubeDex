@@ -5,4 +5,5 @@ export type Vtuber = {
   display_name: string;
   profile_image_url: string;
   createdAt: Date;
+  isHidden?: boolean;
 }

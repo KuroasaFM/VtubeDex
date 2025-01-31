@@ -32,7 +32,7 @@ export const streamsRouter = createTRPCRouter({
     console.log(vtubers)
     const response = await twitch.get<{ data: TwitchStream[] }>("/streams", {
       params: {
-        user_login: vtubers.map((vtuber) => vtuber.twitch_login)
+        user_login: vtubers.filter((vtuber) => !vtuber.isHidden).map((vtuber) => vtuber.twitch_login)
       }
     })
 
