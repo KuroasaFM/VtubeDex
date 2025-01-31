@@ -2,6 +2,7 @@ import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { twitchRouter } from "./routers/twitch";
 import { vtuberRouter } from "./routers/vtuber";
+import { streamsRouter } from "./routers/streams";
 
 /**
  * This is the primary router for your server.
@@ -11,6 +12,7 @@ import { vtuberRouter } from "./routers/vtuber";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   twitch: twitchRouter,
+  streams: streamsRouter,
   vtuber: vtuberRouter
 });
 

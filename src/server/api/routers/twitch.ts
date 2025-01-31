@@ -11,7 +11,7 @@ import { currentUser, clerkClient } from '@clerk/nextjs/server'
 
 export const twitchRouter = createTRPCRouter({
   users: publicProcedure.query(async () => {
-    const response = await twitch.get("/users", {
+    const response = await twitch.get<{ data: TwitchUser[] }>("/users", {
       params: {
         login: "neonkuroasa"
       }
@@ -20,7 +20,16 @@ export const twitchRouter = createTRPCRouter({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return response.data
   }),
+  streams: publicProcedure.query(async () => {
+    const response = await twitch.get("/streams", {
+      params: {
+        language: "fr"
+      }
+    })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return response.data
+  }),
   importUser: publicProcedure.input(z.object({
     login: z.string()
   })).mutation(async ({ input }) => {
