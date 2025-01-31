@@ -37,6 +37,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable} dark`}>
         <head>
+          <link rel='stylesheet' href='https://use.typekit.net/yax3yrb.css' />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </head>
         <body>
