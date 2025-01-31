@@ -1,11 +1,9 @@
-@import url('https://use.typekit.net/yax3yrb.css') layer(base);
-
+@import url('https://use.typekit.net/yax3yrb.css');
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
-
 
 @theme {
   --font-sans: proxima-nova, var(--font-geist-sans), ui-sans-serif, system-ui,
