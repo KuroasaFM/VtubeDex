@@ -1,12 +1,10 @@
 
-// src/providers/counter-store-provider.tsx
+// src/providers/user-store-provider.tsx
 'use client'
 
-import { useUser } from '@clerk/nextjs'
-import { type ReactNode, createContext, useRef, useContext } from 'react'
+import { createContext, useRef, useContext } from 'react'
 import { useStore } from 'zustand'
-import { createUserStore, type UserStore } from '~/stores/user-store'
-import { api } from '~/trpc/react'
+import { createUserStore, type UserState, type UserStore } from '~/stores/user-store'
 
 
 export type UserStoreApi = ReturnType<typeof createUserStore>
@@ -15,22 +13,17 @@ export const UserStoreContext = createContext<UserStoreApi | undefined>(
   undefined,
 )
 
-export interface UserStoreProviderProps {
-  children: ReactNode
-}
+type UserStoreProviderProps = React.PropsWithChildren<UserState>
 
 export const UserStoreProvider = ({
   children,
+  ...props
 }: UserStoreProviderProps) => {
   const storeRef = useRef<UserStoreApi>()
+
   if (!storeRef.current) {
-    storeRef.current = createUserStore()
+    storeRef.current = createUserStore(props)
   }
-
-  const { user } = useUser();
-  const { data: vtuber } = api.vtuber.findOne.useQuery({ login: user?.username ?? "" })
-  storeRef.current.setState({ current_vtuber: vtuber });
-
   return (
     <UserStoreContext.Provider value={storeRef.current}>
       {children}
@@ -41,11 +34,11 @@ export const UserStoreProvider = ({
 export const useUserStore = <T,>(
   selector: (store: UserStore) => T,
 ): T => {
-  const counterStoreContext = useContext(UserStoreContext)
+  const userStoreContext = useContext(UserStoreContext)
 
-  if (!counterStoreContext) {
+  if (!userStoreContext) {
     throw new Error(`useUserStore must be used within UserStoreProvider`)
   }
 
-  return useStore(counterStoreContext, selector)
+  return useStore(userStoreContext, selector)
 }

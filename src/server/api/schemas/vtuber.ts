@@ -1,5 +1,5 @@
 export type Vtuber = {
-  id: string;
+  // id: string;
   twitch_id: string;
   twitch_login: string;
   display_name: string;

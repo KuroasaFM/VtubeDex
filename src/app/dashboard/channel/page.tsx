@@ -4,6 +4,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { LoaderCircleIcon, SlashIcon } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { Button } from "~/components/ui/button";
@@ -14,7 +15,7 @@ import { api } from "~/trpc/react";
 
 export default function DashboardChannel() {
 
-  const { current_vtuber, setVtuber: set } = useUserStore((state) => state);
+  const { current_vtuber } = useUserStore((state) => state);
   console.log("césupairent", current_vtuber);
   const { user } = useUser();
 
@@ -33,7 +34,7 @@ export default function DashboardChannel() {
     setShowImport(!user?.publicMetadata.has_imported_channel);
   }, [user])
 
-  if (!user) return <div></div>
+  if (!user || !current_vtuber) return <div></div>
 
 
   return <div className="flex flex-col h-full w-full">
@@ -88,6 +89,13 @@ export default function DashboardChannel() {
           <h1 className="font-display font-bold italic text-4xl tracking-tighter">Ma Chaine</h1>
         </div>
         <div className="p-16">
+          <div className=" rounded-lg bg-neutral-900 p-8">
+            <div>
+              <Image src={current_vtuber?.profile_image_url ?? ""} alt={""} width={100} height={100} />
+            </div>
+            {current_vtuber?.display_name}
+          </div>
+
           <div className=" rounded-lg bg-neutral-900">
             <div className="p-8">
               <div className="flex flex-row-reverse items-center">

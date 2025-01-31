@@ -5,7 +5,7 @@ import { createStore } from 'zustand/vanilla'
 import { type Vtuber } from '~/server/api/schemas/vtuber'
 
 export type UserState = {
-  current_vtuber: Vtuber | null
+  current_vtuber: Omit<Vtuber> | null
 }
 
 export type UserActions = {
@@ -19,10 +19,12 @@ export const defaultInitState: UserState = {
 }
 
 export const createUserStore = (
+  props: { current_vtuber: Vtuber | null },
   initState: UserState = defaultInitState,
 ) => {
   return createStore<UserStore>()((set) => ({
     ...initState,
+    current_vtuber: props.current_vtuber,
     setVtuber: (vtuber: Vtuber) => set(() => ({ current_vtuber: vtuber }))
   }))
 }

@@ -10,6 +10,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { AppSidebar } from "~/components/app-sidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { UserStoreProvider } from "~/providers/user-store-provider";
+import { api } from "~/trpc/server";
+import { currentUser } from "@clerk/nextjs/server";
+import { type Vtuber } from "~/server/api/schemas/vtuber";
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -19,9 +22,17 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const user = await currentUser()
+
+  let vtuber: Vtuber | null = null;
+
+  if (user?.username)
+    vtuber = await api.vtuber.findOne({ login: user.username });
+
+
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable} dark`}>
@@ -34,7 +45,7 @@ export default function RootLayout({
             <SidebarInset>
               <SidebarTrigger className="m-2 absolute" />
               <TRPCReactProvider>
-                <UserStoreProvider>
+                <UserStoreProvider current_vtuber={vtuber}>
                   {children}
                   <SpeedInsights />
                 </UserStoreProvider>

@@ -1,7 +1,3 @@
-"use client";
-
-export const dynamic = "force-dynamic";
-
 export default function Home() {
   return (
     <div className="flex flex-col h-full w-full p-8 pt-12 gap-8 @container">

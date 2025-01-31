@@ -109,7 +109,7 @@ export async function AppSidebar() {
             <DropdownMenuTrigger className="outline-hidden ring-none p-2 hover:bg-neutral-800/50 transition-all rounded-lg cursor-pointer">
               <div className="flex flex-col gap-2 w-full ">
                 <div className="flex flex-row items-center gap-2">
-                  {user && <Image src={user.imageUrl} alt="userprofile" width={10} height={10} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />
+                  {user && <Image src={user.imageUrl} alt="userprofile" width={100} height={100} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />
                   }<div className="flex flex-col items-start">
                     <div className="font-medium tracking-tight select-none">{user?.fullName}</div>
                     <div className="text-zinc-500 text-xs -mt-1 select-none">@{user?.username}</div>
