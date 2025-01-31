@@ -11,7 +11,7 @@ import { AppSidebar } from "~/components/app-sidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { UserStoreProvider } from "~/providers/user-store-provider";
 
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "VtubeDex",
@@ -36,6 +36,7 @@ export default function RootLayout({
               <TRPCReactProvider>
                 <UserStoreProvider>
                   {children}
+                  <SpeedInsights />
                 </UserStoreProvider>
               </TRPCReactProvider>
             </SidebarInset>
