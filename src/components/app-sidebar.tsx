@@ -1,7 +1,7 @@
 import { SignedOut, SignInButton, SignedIn, SignOutButton } from "@clerk/nextjs";
 import { SidebarHeader, SidebarContent, SidebarGroup, SidebarFooter, Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroupLabel } from "./ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
-import { DoorOpenIcon, HomeIcon, ImportIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, TvIcon, UserIcon } from "lucide-react";
+import { ChevronsUpDown, DoorOpenIcon, HomeIcon, ImportIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, TvIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -86,7 +86,6 @@ export async function AppSidebar() {
                   <span>Dashboard</span>
                   {
                     !user?.publicMetadata.has_imported_channel && <div>
-
                       <div className="animate-ping h-2 w-2 bg-purple-500 rounded-full absolute top-0 left-0"></div>
                       <div className="h-2 w-2 bg-purple-500/50 rounded-full absolute top-0 left-0"></div>
                     </div>
@@ -106,7 +105,7 @@ export async function AppSidebar() {
         <SignedIn>
           <DropdownMenu>
 
-            <DropdownMenuTrigger className="outline-hidden ring-none p-2 hover:bg-neutral-800/50 transition-all rounded-lg cursor-pointer">
+            <DropdownMenuTrigger className="outline-hidden ring-none p-2 hover:bg-neutral-800/50 transition-all rounded-lg cursor-pointer flex items-center">
               <div className="flex flex-col gap-2 w-full ">
                 <div className="flex flex-row items-center gap-2">
                   {user && <Image src={user.imageUrl} alt="userprofile" width={100} height={100} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />
@@ -115,6 +114,10 @@ export async function AppSidebar() {
                     <div className="text-zinc-500 text-xs -mt-1 select-none">@{user?.username}</div>
                   </div>
                 </div>
+              </div>
+              <div>
+
+                <ChevronsUpDown size={14} className="text-neutral-500" />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={6} className="w-60">
@@ -140,7 +143,6 @@ export async function AppSidebar() {
                   <Link href={"/dashboard"}>
                     <DropdownMenuItem><ImportIcon /> Importer ma chaine twitch </DropdownMenuItem>
                   </Link>
-
                 </div>
               }
               <DropdownMenuSeparator />
