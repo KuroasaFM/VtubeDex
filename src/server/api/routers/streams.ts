@@ -7,39 +7,48 @@ import twitch from "~/server/twitch";
 import { type TwitchStream } from "../types/twitch";
 import { type Stream } from "../schemas/stream";
 import { type Vtuber } from "../schemas/vtuber";
+import { api } from "~/trpc/server";
+import { type State } from "../schemas/states";
 
 export const streamsRouter = createTRPCRouter({
   updateStreamCache: publicProcedure.mutation(async () => {
-    const vtubers = await db.select<Vtuber>("vtuber");
 
-    const response = await twitch.get<{ data: TwitchStream[] }>("/streams", {
-      params: {
-        login: vtubers.map((vtuber) => vtuber.twitch_login)
+    const { value: last_stream_cache_update } = await db.select<State>(new RecordId('states', 'last_stream_cache_update'));
+
+    const last_stream_cache_update_as_date = Number(last_stream_cache_update);
+    const now = new Date();
+
+
+    if (now.valueOf() - last_stream_cache_update_as_date.valueOf() < 2 * 60 * 1000) return;
+    await db.patch<State>(new RecordId('states', 'last_stream_cache_update'), [
+      {
+        op: "replace",
+        path: "value",
+        value: Date.now().toString()
       }
-    })
+    ]);
 
-    for (const stream of response.data.data) {
+    await db.delete("streams");
+    const vtubers = await db.select<Vtuber>("vtuber");
+    const streams: TwitchStream[] = []
+
+    do {
+      const vtubers_to_search = vtubers.splice(0, 100);
+      const response = await twitch.get<{ data: TwitchStream[] }>("/streams", {
+        params: {
+          user_login: vtubers_to_search.map((vtuber) => vtuber.twitch_login)
+        }
+      })
+      streams.push(...response.data.data);
+    } while (vtubers.length > 1)
+
+    for (const stream of streams) {
       await db.create<Stream>("streams", stream)
     }
   }),
   find: publicProcedure.query(async () => {
-    await db.delete("streams");
 
-    await db.update(new RecordId("states", "last_stream_cache_update"), { value: Date.now().toString() })
-
-    const vtubers = await db.select<Vtuber>("vtuber");
-
-    console.log(vtubers)
-    const response = await twitch.get<{ data: TwitchStream[] }>("/streams", {
-      params: {
-        user_login: vtubers.filter((vtuber) => !vtuber.isHidden).map((vtuber) => vtuber.twitch_login)
-      }
-    })
-
-    for (const stream of response.data.data) {
-      console.log(stream);
-      await db.create<Stream>("streams", stream)
-    }
+    await api.streams.updateStreamCache();
 
     const streams = await db.select<Stream>("streams");
 

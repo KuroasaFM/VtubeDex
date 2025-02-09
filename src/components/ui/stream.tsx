@@ -18,8 +18,8 @@ export default function Stream({ data }: { data: Stream }) {
 
     const bounds = preview.current?.getBoundingClientRect();
     if (!bounds) throw new Error("NO BOUNDS");
-    const y = lerp(10, -10, (event.clientY - bounds.top) / bounds.height).toFixed(0);
-    const x = lerp(-7, 7, (event.clientX - bounds.left) / bounds.width).toFixed(0);
+    const y = lerp(5, -5, (event.clientY - bounds.top) / bounds.height).toFixed(1);
+    const x = lerp(-3, 3, (event.clientX - bounds.left) / bounds.width).toFixed(1);
     setX(x)
     setY(y)
 
