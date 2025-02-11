@@ -2,7 +2,6 @@
 import { CircleIcon, DotIcon, UserIcon, Gamepad2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState, type MouseEvent } from "react";
-import { cn } from "~/lib/utils";
 import { type Stream } from "~/server/api/schemas/stream";
 
 export default function Stream({ data }: { data: Stream }) {
@@ -11,7 +10,7 @@ export default function Stream({ data }: { data: Stream }) {
 
   const [x, setX] = useState("");
   const [y, setY] = useState("");
-  const lerp = (x, y, a) => x * (1 - a) + y * a;
+  const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
   const animatePreview = (event: MouseEvent) => {
 
     if (!preview.current) return;

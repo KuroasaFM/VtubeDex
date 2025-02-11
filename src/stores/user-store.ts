@@ -22,9 +22,15 @@ export const createUserStore = (
   props: { current_vtuber: Vtuber | null },
   initState: UserState = defaultInitState,
 ) => {
+
+  let current_vtuber = null;
+
+  if (props.current_vtuber)
+    current_vtuber = { ...props.current_vtuber, id: JSON.stringify(props.current_vtuber.id) };
+
   return createStore<UserStore>()((set) => ({
     ...initState,
-    current_vtuber: props.current_vtuber,
+    current_vtuber,
     setVtuber: (vtuber: Vtuber) => set(() => ({ current_vtuber: vtuber }))
   }))
 }

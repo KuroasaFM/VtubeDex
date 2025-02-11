@@ -1,12 +1,13 @@
 import Stream from "~/components/ui/stream";
-import { useUserStore } from "~/providers/user-store-provider";
 import { type Stream as StreamSchema } from "~/server/api/schemas/stream";
 import { api } from "~/trpc/server";
 
 
 export default async function Streams() {
 
-  const streams = await api.streams.find();
+  const streams = (await api.streams.find()).map((stream) => {
+    return { ...stream, id: JSON.stringify(stream.id) };
+  });
 
 
   return <div className="px-8 flex flex-col gap-4 @container container mx-auto">
