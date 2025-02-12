@@ -28,9 +28,10 @@ export default async function RootLayout({
   const user = await currentUser()
 
   let vtuber: Vtuber | null = null;
-
-  if (user?.username && user.publicMetadata.has_imported_channel)
+  if (user?.username && user.publicMetadata.has_imported_channel) {
     vtuber = await api.vtuber.findOne({ login: user.username });
+    vtuber = { ...vtuber, id: JSON.stringify(vtuber.id) }
+  }
 
 
   return (
