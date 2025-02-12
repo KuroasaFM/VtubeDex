@@ -9,6 +9,9 @@ import { type Stream } from "../schemas/stream";
 import { type Vtuber } from "../schemas/vtuber";
 import { api } from "~/trpc/server";
 import { type State } from "../schemas/states";
+import { z } from "zod";
+import { currentUser } from "@clerk/nextjs/server";
+import { type Follow } from "../schemas/follows";
 
 export const streamsRouter = createTRPCRouter({
   updateStreamCache: publicProcedure.mutation(async () => {
@@ -46,11 +49,44 @@ export const streamsRouter = createTRPCRouter({
       await db.create<Stream>("streams", stream)
     }
   }),
-  find: publicProcedure.query(async () => {
+  find: publicProcedure.input(z.object({
+    limit: z.number().default(24), // 24 is divisible by 2, 3 and 4 = better ui when sorted by grid
+  })).query(async ({ input }) => {
 
     await api.streams.updateStreamCache();
 
-    const streams = await db.select<Stream>("streams");
+    let streams = await db.select<Stream>("streams");
+
+    streams = streams.splice(0, input.limit);
+
+    return streams.map(stream => {
+      const date = Date.parse(stream.started_at);
+      const stream_lenght_millis = Date.now() - date
+      return {
+        ...stream,
+        length: msToTime(stream_lenght_millis)
+      }
+    }).sort((a, b) => Date.parse(a.started_at) > Date.parse(b.started_at) ? -1 : 1);
+
+  }),
+  findFavourites: publicProcedure.input(z.object({
+    limit: z.number().default(24), // 24 is divisible by 2, 3 and 4 = better ui when sorted by grid
+  })).query(async ({ input }) => {
+    const user = await currentUser();
+
+    if (!user) throw new Error("User not connected");
+
+    await api.streams.updateStreamCache();
+    const [follows]: Follow[][] = await db.query('SELECT follows FROM follows WHERE user == $username', { username: user.username })
+
+
+    if (!follows) return [];
+
+    console.log(follows.map(follow => follow.follows))
+    let streams = await db.select<Stream>("streams");
+
+
+    streams = streams.filter((stream) => follows.map(follow => follow.follows).includes(stream.user_login)).splice(0, input.limit);
 
     return streams.map(stream => {
       const date = Date.parse(stream.started_at);

@@ -1,7 +1,7 @@
 import { SignedOut, SignInButton, SignedIn, SignOutButton } from "@clerk/nextjs";
 import { SidebarHeader, SidebarContent, SidebarGroup, SidebarFooter, Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroupLabel } from "./ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
-import { ChevronsUpDown, DoorOpenIcon, HomeIcon, ImportIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, TvIcon, UserIcon } from "lucide-react";
+import { ChevronsUpDown, DoorOpenIcon, HomeIcon, ImportIcon, LayoutDashboardIcon, SquareArrowOutUpRightIcon, StarsIcon, TvIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -16,15 +16,20 @@ const sidebarItems = [
     href: "/",
   },
   {
+    title: "Mes Oshi",
+    icon: StarsIcon,
+    href: "/oshi"
+  },
+  {
     title: "Streams",
     icon: TvIcon,
     href: "/streams"
   },
-  // {
-  //   title: "Vtubers",
-  //   icon: UserIcon,
-  //   href: "/vtubers"
-  // },
+  {
+    title: "Vtubers",
+    icon: UserIcon,
+    href: "/vtubers"
+  },
   // {
   //   title: "Évenements",
   //   icon: CalendarRangeIcon,
@@ -52,7 +57,7 @@ export async function AppSidebar() {
           <div className="text-2xl font-display font-bold italic tracking-tighter select-none text-neutral-500 hover:text-neutral-400 transition-all">
             VtubeDex
           </div>
-          <Badge variant={"outline"} className="scale-90">α0.1.0</Badge>
+          <Badge variant={"outline"} className="scale-90">αlpha</Badge>
         </div>
       </SidebarHeader>
       <SidebarContent>

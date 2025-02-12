@@ -1,4 +1,10 @@
-export default function Home() {
+import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
+import Stream from "~/components/ui/stream";
+import { api } from "~/trpc/server";
+
+export default async function Home() {
+  const streams = await api.streams.find({ limit: 6 })
   return (
     <div className="flex flex-col h-full w-full p-8 pt-12 gap-8 @container">
       <div className="flex flex-col justify-center items-center gap-0">
@@ -13,6 +19,17 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center">
         <div className="bg-neutral-900 h-80 @5xl:max-w-2/3 w-full rounded-xl"></div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <Link href={"/streams"} >
+
+          <h2 className="italic font-display font-bold text-xl flex items-center group"><span>Streams</span> <ChevronRightIcon size={16} className="group-hover:opacity-100 opacity-0 transition-all" /></h2>
+        </Link>
+        <div className="box-border flex *:w-80 gap-4">
+          {
+            streams.map((stream) => <Stream data={stream} key={stream.id} />)
+          }
+        </div>
       </div>
     </div >
   );
