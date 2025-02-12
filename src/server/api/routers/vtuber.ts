@@ -4,6 +4,7 @@ import { type Vtuber } from "../schemas/vtuber";
 import { z } from "zod";
 
 import { RecordId } from "surrealdb"
+import { currentUser } from "@clerk/nextjs/server";
 
 export const vtuberRouter = createTRPCRouter({
   find: publicProcedure.query(async () => {
@@ -16,6 +17,26 @@ export const vtuberRouter = createTRPCRouter({
       throw new Error(`No Vtuber found for login ${input.login}`)
     }
     return response[0][0];
+  }),
+  findOshis: publicProcedure.query(async () => {
+    const user = await currentUser();
+    if (!user) return [];
+
+    const [follows] = await db.query<[string[]]>("SELECT value(follows) FROM follows WHERE user = $user", { user: user.username })
+
+    const [oshis] = await db.query<[Vtuber[]]>(`SELECT * FROM vtuber WHERE $oshis CONTAINS twitch_login`, { oshis: follows })
+
+    return oshis;
+  }),
+  findAllWithOshis: publicProcedure.query(async () => {
+    const user = await currentUser();
+    if (!user) return [];
+
+    const [follows] = await db.query<[string[]]>("SELECT value(follows) FROM follows WHERE user = $user", { user: user.username })
+
+    const [oshis] = await db.query<[(Vtuber & { is_oshi?: boolean })[]]>(`SELECT *, $oshis CONTAINS twitch_login AS is_oshi FROM vtuber`, { oshis: follows })
+
+    return oshis;
   }),
   setHidden: publicProcedure.input(z.object({ login: z.string(), isHidden: z.boolean() })).mutation(async ({ input }) => {
     const vtuber = await db.patch<Vtuber>(new RecordId("vtuber", input.login), [

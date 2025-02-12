@@ -1,9 +1,21 @@
+import { SignInButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
+import Link from "next/link";
 import Stream from "~/components/ui/stream";
 import { type Stream as StreamSchema } from "~/server/api/schemas/stream";
 import { api } from "~/trpc/server";
 
 
 export default async function Streams() {
+
+  const user = await currentUser();
+
+  if (!user) return <div className="flex h-full items-center justify-center select-none">
+    <div className="flex flex-col gap-2 text-neutral-400 items-center select-none">
+      <span>Vous n&apos;êtes pas connecté !</span>
+      <span className="text-sm text-neutral-500 select-none">Pour utiliser cette feature, veuillez vous <SignInButton><span className="font-bold hover:underline text-neutral-300 cursor-pointer">Connecter</span></SignInButton></span>
+    </div>
+  </div>
 
   const streams = (await api.streams.findFavourites({})).map((stream) => {
     return { ...stream, id: JSON.stringify(stream.id) };
