@@ -23,7 +23,7 @@ export default async function Vtubers() {
       {vtubers.map(vtuber => <div className="odd:bg-neutral-900/50 p-4 flex gap-4 items-center hover:bg-neutral-900 transition-all" key={vtuber.id.toString()}>
         <div>
           <div className="h-8 w-8 rounded-full bg-neutral-900 overflow-hidden border-2 border-white/15">
-            <Image src={vtuber.profile_image_url} height={200} width={200} alt={vtuber.twitch_login}></Image>
+            {/* <Image src={vtuber.profile_image_url || null} height={200} width={200} alt={vtuber.twitch_login}></Image> */}
           </div>
         </div>
         <span className="font-bold select-none text-sm">{vtuber.display_name || vtuber.twitch_login}</span>
