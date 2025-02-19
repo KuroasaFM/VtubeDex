@@ -16,8 +16,18 @@ export default function VtuberSearch(props: VtuberSearchProps) {
   const [search, setSearch] = useState("")
   const [vtubers, setVtubers] = useState(props.vtubers)
 
-  const { data } = api.vtuber.search.useQuery({ search: search });
+  const { data, refetch: refetchVtubers } = api.vtuber.search.useQuery({ search: search });
+  const { mutate: setAsOshi } = api.vtuber.setAsOshi.useMutation();
 
+  const setVtuberAsOshi = async (vtuber: Vtuber & { is_oshi?: boolean }) => {
+    const { twitch_login: vtuber_login, is_oshi } = vtuber;
+    setAsOshi({
+      vtuber_login,
+      is_oshi: !is_oshi
+    });
+
+    await refetchVtubers();
+  }
 
   useEffect(() => {
     if (data) setVtubers(data);
@@ -41,10 +51,10 @@ export default function VtuberSearch(props: VtuberSearchProps) {
 
         </div>
         <div className="grow" />
-        <span>
-          {!vtuber.is_oshi && <StarsIcon strokeWidth={1} size={24} />}
-          {!!vtuber.is_oshi && <StarsIcon strokeWidth={2} fill="white" size={24} />}
-        </span>
+        <div className="hover:bg-neutral-800 p-2 rounded-lg cursor-pointer" onClick={() => setVtuberAsOshi(vtuber)}>
+          {!vtuber.is_oshi && <StarsIcon strokeWidth={1} size={20} />}
+          {!!vtuber.is_oshi && <StarsIcon strokeWidth={2} fill="white" size={20} />}
+        </div>
       </div>)}
     </div>
   </div>
