@@ -1,6 +1,5 @@
 import { SignInButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
-import Link from "next/link";
 import Stream from "~/components/ui/stream";
 import { type Stream as StreamSchema } from "~/server/api/schemas/stream";
 import { api } from "~/trpc/server";
@@ -38,7 +37,7 @@ export default async function Streams() {
     }
     {
       !!streams.length &&
-      <div className="grid grid-cols-2 @4xl:grid-cols-3 h-full w-full items-center justify-center gap-6">
+      <div className="grid grid-cols-2 @4xl:grid-cols-3 h-full w-full items-center gap-6">
         {streams.map((stream: StreamSchema) => <Stream data={stream} key={stream.id} />)}
       </div>
     }

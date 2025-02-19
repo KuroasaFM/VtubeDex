@@ -1,6 +1,7 @@
 "use client";
 import { CircleIcon, DotIcon, UserIcon, Gamepad2Icon, LucideHandHelping } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState, type MouseEvent } from "react";
 import { type Stream } from "~/server/api/schemas/stream";
 
@@ -32,7 +33,9 @@ export default function Stream({ data }: { data: Stream }) {
     setLight("50")
   }
 
-  return <div className="flex flex-col relative group bg-neutral-900 rounded-lg cursor-pointer ">
+  if (!data) return;
+
+  return <Link className="flex flex-col relative group bg-neutral-900 rounded-lg cursor-pointer" href={`https://twitch.tv/${data.user_login}`}>
     <div className="aspect-video absolute w-full z-20" onMouseMove={animatePreview} onMouseLeave={leave} />
     <div ref={preview} className="aspect-video w-full transform-gpu transform-3d perspective-midrange perspective-origin-center group-hover:scale-105 transition-all ease-out" >
       <div style={{ transform: `rotateX(${y}deg) rotateY(${x}deg)` }} className=
@@ -67,5 +70,5 @@ export default function Stream({ data }: { data: Stream }) {
       <span className="tracking-tighter text-sm font-bold text-neutral-200">{data.user_name}</span>
       <span className="truncate text-xs text-neutral-500 ">{data.title}</span>
     </div>
-  </div>
+  </Link>
 }

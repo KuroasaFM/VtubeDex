@@ -11,6 +11,13 @@ export const vtuberRouter = createTRPCRouter({
     const response = await db.select<Vtuber>("vtuber");
     return response;
   }),
+  search: publicProcedure.input(z.object({
+    search: z.string().optional()
+  })).query(async ({ input }) => {
+    const [vtubers] = await db.query<[Vtuber[]]>("SELECT * from vtuber where string::matches(twitch_login,$search)", { search: input.search ?? "" });
+    console.log(vtubers)
+    return vtubers;
+  }),
   findOne: publicProcedure.input(z.object({ login: z.string() })).query(async ({ input }) => {
     const response = await db.query<Vtuber[][]>("SELECT * FROM vtuber WHERE twitch_login = $login", { login: input.login });
     if (!response[0]?.[0]) {
