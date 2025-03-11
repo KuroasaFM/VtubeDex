@@ -48,7 +48,9 @@ export default async function RootLayout({
               <SidebarTrigger className="m-2 absolute" />
               <TRPCReactProvider>
                 <UserStoreProvider current_vtuber={vtuber}>
-                  {children}
+                  <div className="bg-gradient-to-tl from-neutral-900/50 to-transparent h-full overflow-y-scroll">
+                    {children}
+                  </div>
                   <SpeedInsights />
                 </UserStoreProvider>
               </TRPCReactProvider>

@@ -1,5 +1,5 @@
 import db from "~/server/db";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { type Stream } from "../schemas/stream";
 import { z } from "zod";
 import { currentUser } from "@clerk/nextjs/server";
@@ -72,12 +72,9 @@ export const streamsRouter = createTRPCRouter({
     }).sort((a, b) => Date.parse(a.started_at) > Date.parse(b.started_at) ? -1 : 1);
 
   }),
-  findFavourites: publicProcedure.input(z.object({
+  findFavourites: authedProcedure.input(z.object({
     limit: z.number().default(24), // 24 is divisible by 2, 3 and 4 = better ui when sorted by grid
-  })).query(async ({ input }) => {
-    const user = await currentUser();
-
-    if (!user) throw new Error("User not connected");
+  })).query(async ({ input, ctx: { user } }) => {
 
     await updateStreamCache();
     const [follows]: Follow[][] = await db.query('SELECT follows FROM follows WHERE user == $username', { username: user.username })
@@ -87,7 +84,6 @@ export const streamsRouter = createTRPCRouter({
 
     console.log(follows.map(follow => follow.follows))
     let streams = await db.select<Stream>("streams");
-
 
     streams = streams.filter((stream) => follows.map(follow => follow.follows).includes(stream.user_login)).splice(0, input.limit);
 

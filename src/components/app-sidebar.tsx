@@ -81,24 +81,20 @@ export async function AppSidebar() {
         </SidebarGroup>
 
         <SignedIn>
-
-          <SidebarGroup>
-            <SidebarGroupLabel>Mon Vtubedex</SidebarGroupLabel>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="/dashboard">
-                  <LayoutDashboardIcon />
-                  <span>Dashboard</span>
-                  {
-                    !user?.publicMetadata.has_imported_channel && <div>
-                      <div className="animate-ping h-2 w-2 bg-purple-500 rounded-full absolute top-0 left-0"></div>
-                      <div className="h-2 w-2 bg-purple-500/50 rounded-full absolute top-0 left-0"></div>
-                    </div>
-                  }
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarGroup>
+          {
+            !!user?.publicMetadata.has_imported_channel &&
+            <SidebarGroup>
+              <SidebarGroupLabel>Mon Vtubedex</SidebarGroupLabel>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/dashboard">
+                    <LayoutDashboardIcon />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarGroup>
+          }
         </SignedIn>
       </SidebarContent>
       <SidebarFooter>

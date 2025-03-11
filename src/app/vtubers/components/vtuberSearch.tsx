@@ -55,8 +55,7 @@ export default function VtuberSearch(props: VtuberSearchProps) {
         <span className="font-bold select-none text-sm">{vtuber.display_name || vtuber.twitch_login}</span>
         <div className=" text-neutral-700 group hover:text-neutral-600 hover:underline flex gap-1">
           <SquareArrowOutUpRightIcon size={16} />
-          <Link href={`https://twitch.tv/${vtuber.twitch_login}`} className="text-xs">ttv/{vtuber.twitch_login}</Link>
-
+          <Link href={`https://twitch.tv/${vtuber.twitch_login}`} className="text-xs">twitch.tv/{vtuber.twitch_login}</Link>
         </div>
         <div className="grow" />
         <div className="hover:bg-neutral-800 p-2 rounded-lg cursor-pointer" onClick={() => setVtuberAsOshi(vtuber)}>
