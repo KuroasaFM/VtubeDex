@@ -3,7 +3,7 @@ import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { type TwitchUser } from "../types/twitch";
 import db from "~/server/db";
-import { RecordId } from "surrealdb"
+import { jsonify, RecordId } from "surrealdb"
 import { type Vtuber } from "../schemas/vtuber";
 import { currentUser, clerkClient } from '@clerk/nextjs/server'
 
@@ -64,7 +64,7 @@ export const twitchRouter = createTRPCRouter({
       }
     })
 
-    return vtuber
+    return jsonify(vtuber)
 
   })
 })

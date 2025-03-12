@@ -3,13 +3,13 @@ import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { type Vtuber } from "../schemas/vtuber";
 import { z } from "zod";
 
-import { RecordId } from "surrealdb"
+import { jsonify, RecordId } from "surrealdb"
 import { currentUser } from "@clerk/nextjs/server";
 
 export const vtuberRouter = createTRPCRouter({
   find: publicProcedure.query(async () => {
-    const response = await db.select<Vtuber>("vtuber");
-    return response;
+    const vtubers = await db.select<Vtuber>("vtuber");
+    return jsonify(vtubers);
   }),
   search: publicProcedure.input(z.object({
     search: z.string().optional()
@@ -22,21 +22,21 @@ export const vtuberRouter = createTRPCRouter({
     }
     const [oshis] = await db.query<[string[]]>("SELECT value(follows) FROM follows WHERE user = $user", { user: user.username })
     const [vtubers] = await db.query<[Vtuber[]]>("SELECT *, $oshis CONTAINS twitch_login AS is_oshi from vtuber where string::matches(twitch_login,$search) and isHidden != true", { search: input.search ?? "", oshis });
-    return vtubers;
+    return jsonify(vtubers);
   }),
   findOne: publicProcedure.input(z.object({ login: z.string() })).query(async ({ input }) => {
     const response = await db.query<Vtuber[][]>("SELECT * FROM vtuber WHERE twitch_login = $login", { login: input.login });
     if (!response[0]?.[0]) {
       throw new Error(`No Vtuber found for login ${input.login}`)
     }
-    return response[0][0];
+    return jsonify(response[0][0]);
   }),
   findOshis: authedProcedure.query(async ({ ctx: { user } }) => {
     const [follows] = await db.query<[string[]]>("SELECT value(follows) FROM follows WHERE user = $user", { user: user.username })
 
     const [oshis] = await db.query<[Vtuber[]]>(`SELECT * FROM vtuber WHERE $oshis CONTAINS twitch_login and isHidden != true`, { oshis: follows })
 
-    return oshis;
+    return jsonify(oshis);
   }),
   findAllWithOshis: authedProcedure.query(async ({ ctx: { user } }) => {
 
@@ -44,7 +44,7 @@ export const vtuberRouter = createTRPCRouter({
 
     const [oshis] = await db.query<[(Vtuber & { is_oshi?: boolean })[]]>(`SELECT *, $oshis CONTAINS twitch_login AS is_oshi FROM vtuber where isHidden != true`, { oshis: follows })
 
-    return oshis;
+    return jsonify(oshis);
   }),
   setHidden: publicProcedure.input(z.object({ login: z.string(), isHidden: z.boolean() })).mutation(async ({ input }) => {
     const vtuber = await db.patch<Vtuber>(new RecordId("vtuber", input.login), [
@@ -54,7 +54,7 @@ export const vtuberRouter = createTRPCRouter({
         value: input.isHidden
       }
     ]);
-    return vtuber;
+    return jsonify(vtuber);
   }),
   setAsOshi: authedProcedure.input(z.object({ vtuber_login: z.string(), is_oshi: z.boolean() })).mutation(async ({ input, ctx: { user } }) => {
     if (input.is_oshi)
