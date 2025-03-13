@@ -64,7 +64,7 @@ export const twitchRouter = createTRPCRouter({
       }
     })
 
-    return jsonify(vtuber)
+    return vtuber
 
   })
 })

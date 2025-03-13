@@ -61,7 +61,7 @@ export const streamsRouter = createTRPCRouter({
 
     streams = streams.splice(0, input.limit);
 
-    return jsonify(streams).map(stream => {
+    return streams.map(stream => {
       const date = Date.parse(stream.started_at);
       const stream_lenght_millis = Date.now() - date
       return {
@@ -86,7 +86,7 @@ export const streamsRouter = createTRPCRouter({
 
     streams = streams.filter((stream) => follows.map(follow => follow.follows).includes(stream.user_login)).splice(0, input.limit);
 
-    return jsonify(streams).map(stream => {
+    return streams.map(stream => {
       const date = Date.parse(stream.started_at);
       const stream_lenght_millis = Date.now() - date
       return {

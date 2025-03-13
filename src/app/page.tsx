@@ -4,7 +4,9 @@ import Stream from "~/components/ui/stream";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
-  const streams = await api.streams.find({ limit: 6 })
+  const streams = (await api.streams.find({ limit: 6 })).map((stream) => ({ ...stream, id: stream.id.toString() }))
+
+
   return (
     <div className="flex flex-col h-full w-full p-8 pt-12 gap-8 @container">
       <div className="flex flex-col justify-center items-center gap-0">
