@@ -3,13 +3,14 @@ import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { type Vtuber } from "../schemas/vtuber";
 import { z } from "zod";
 
-import { RecordId } from "surrealdb"
 import { currentUser } from "@clerk/nextjs/server";
+import { RecordId } from "surrealdb";
 
 export const vtuberRouter = createTRPCRouter({
   find: publicProcedure.query(async () => {
-    const response = await db.select<Vtuber>("vtuber");
-    return response;
+    const vtubers = await db.select<Vtuber>("vtuber");
+    return vtubers;
+
   }),
   search: publicProcedure.input(z.object({
     search: z.string().optional()

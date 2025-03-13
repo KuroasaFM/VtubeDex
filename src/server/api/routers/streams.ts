@@ -8,7 +8,7 @@ import twitch from "~/server/twitch";
 import { type State } from "../schemas/states";
 import { type Vtuber } from "../schemas/vtuber";
 import { type TwitchStream } from "../types/twitch";
-import { RecordId } from "surrealdb"
+import { jsonify, RecordId } from "surrealdb"
 
 const updateStreamCache = async () => {
   const { value: last_stream_cache_update } = await db.select<State>(new RecordId('states', 'last_stream_cache_update'));
@@ -43,7 +43,6 @@ const updateStreamCache = async () => {
     streams.push(...response.data.data);
   } while (vtubers.length > 1)
 
-  console.log(streams)
   for (const stream of streams) {
     await db.create<Stream>("streams", stream)
   }

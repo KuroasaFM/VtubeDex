@@ -47,6 +47,9 @@ export default function DashboardChannel() {
 
   useEffect(() => {
     if (new_vtuber) {
+
+      console.log(new_vtuber);
+
       setVtuber(new_vtuber);
     }
   }, [new_vtuber])
