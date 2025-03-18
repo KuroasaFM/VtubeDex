@@ -1,5 +1,9 @@
 import VtuberSearch from "./components/vtuberSearch";
 
+export const metadata = {
+  title: "Vtubers | VtubeDex"
+}
+
 export default async function Vtubers() {
 
   return <div className="px-8 flex flex-col gap-4 @container container mx-auto">

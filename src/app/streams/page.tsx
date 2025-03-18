@@ -3,6 +3,10 @@ import { type Stream as StreamSchema } from "~/server/api/schemas/stream";
 import { api } from "~/trpc/server";
 
 
+export const metadata = {
+  title: "Streams | VtubeDex"
+}
+
 export default async function Streams() {
 
   const streams = (await api.streams.find({})).map((stream) => {

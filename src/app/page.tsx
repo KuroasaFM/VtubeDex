@@ -33,7 +33,7 @@ export default async function Home() {
 
           <h2 className="italic font-display font-bold text-xl flex items-center group"><span>Streams</span> <ChevronRightIcon size={16} className="group-hover:opacity-100 opacity-0 transition-all" /></h2>
         </Link>
-        <div className="box-border flex *:w-80 gap-4">
+        <div className="box-border flex *:w-80 gap-4 overflow-x-scroll">
           {
             streams.map((stream) => <Stream data={stream} key={stream.id} />)
           }

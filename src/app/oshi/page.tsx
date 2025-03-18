@@ -4,6 +4,9 @@ import Stream from "~/components/ui/stream";
 import { type Stream as StreamSchema } from "~/server/api/schemas/stream";
 import { api } from "~/trpc/server";
 
+export const metadata = {
+  title: "Mes Oshi | VtubeDex"
+}
 
 export default async function Streams() {
 
