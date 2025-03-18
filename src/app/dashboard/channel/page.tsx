@@ -47,6 +47,9 @@ export default function DashboardChannel() {
 
   useEffect(() => {
     if (new_vtuber) {
+
+      console.log(new_vtuber);
+
       setVtuber(new_vtuber);
     }
   }, [new_vtuber])
@@ -117,10 +120,10 @@ export default function DashboardChannel() {
           </Breadcrumb>
           <h1 className="font-display font-bold italic text-4xl tracking-tighter">Ma Chaine</h1>
         </div>
-        <div className="p-16">
-          <div className=" rounded-lg bg-neutral-900 p-8">
-            <div>
-              <Image src={current_vtuber?.profile_image_url ?? ""} alt={""} width={100} height={100} />
+        <div className="flex-col flex gap-4 mt-16 container">
+          <div className=" rounded-lg bg-neutral-900 p-8 flex items-center gap-2">
+            <div className="rounded-full overflow-hidden">
+              <Image src={current_vtuber?.profile_image_url ?? ""} alt={""} width={32} height={32} />
             </div>
             {current_vtuber?.display_name}
           </div>

@@ -28,9 +28,12 @@ export default async function RootLayout({
   const user = await currentUser()
 
   let vtuber: Vtuber | null = null;
-
-  if (user?.username && user.publicMetadata.has_imported_channel)
+  if (user?.username && user.publicMetadata.has_imported_channel) {
     vtuber = await api.vtuber.findOne({ login: user.username });
+    vtuber = { ...vtuber, id: JSON.stringify(vtuber.id) }
+  }
+
+
 
 
   return (
@@ -47,7 +50,9 @@ export default async function RootLayout({
               <SidebarTrigger className="m-2 absolute" />
               <TRPCReactProvider>
                 <UserStoreProvider current_vtuber={vtuber}>
-                  {children}
+                  <div className="bg-gradient-to-tl from-neutral-900/50 to-transparent h-full overflow-y-scroll">
+                    {children}
+                  </div>
                   <SpeedInsights />
                 </UserStoreProvider>
               </TRPCReactProvider>

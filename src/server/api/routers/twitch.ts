@@ -1,9 +1,9 @@
 import twitch from "~/server/twitch";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { type TwitchUser } from "../types/twitch";
 import db from "~/server/db";
-import { RecordId } from "surrealdb"
+import { jsonify, RecordId } from "surrealdb"
 import { type Vtuber } from "../schemas/vtuber";
 import { currentUser, clerkClient } from '@clerk/nextjs/server'
 
@@ -30,15 +30,9 @@ export const twitchRouter = createTRPCRouter({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return response.data
   }),
-  importUser: publicProcedure.input(z.object({
+  importUser: authedProcedure.input(z.object({
     login: z.string()
-  })).mutation(async ({ input }) => {
-
-
-    const user = await currentUser()
-    if (!user) {
-      throw new Error('You must be signed in to use this feature')
-    }
+  })).mutation(async ({ input, ctx: { user } }) => {
 
     const response = await twitch.get<{ data: TwitchUser[] }>("/users", {
       params: {
