@@ -34,6 +34,8 @@ export default async function RootLayout({
   }
 
 
+
+
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable} dark`}>

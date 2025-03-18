@@ -11,13 +11,15 @@ import { type TwitchStream } from "../types/twitch";
 import { jsonify, RecordId } from "surrealdb"
 
 const updateStreamCache = async () => {
-  const { value: last_stream_cache_update } = await db.select<State>(new RecordId('states', 'last_stream_cache_update'));
+  const response = await db.select<State>(new RecordId('states', 'last_stream_cache_update'));
 
-  const last_stream_cache_update_as_date = Number(last_stream_cache_update);
-  const now = new Date();
+  if (response) {
+    const last_stream_cache_update = response.value;
+    const last_stream_cache_update_as_date = Number(last_stream_cache_update);
+    const now = new Date();
+    if (now.valueOf() - last_stream_cache_update_as_date.valueOf() < 2 * 60 * 1000) return;
+  }
 
-
-  if (now.valueOf() - last_stream_cache_update_as_date.valueOf() < 2 * 60 * 1000) return;
   await db.patch<State>(new RecordId('states', 'last_stream_cache_update'), [
     {
       op: "replace",
