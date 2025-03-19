@@ -2,10 +2,12 @@
 
 import { LoaderCircleIcon, SquareArrowOutUpRightIcon, StarsIcon, } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image"
 import { useEffect, useState } from "react";
 import { Input } from "~/components/ui/input";
 import { type Vtuber } from "~/server/api/schemas/vtuber";
 import { api } from "~/trpc/react"
+import { SignedIn } from "@clerk/nextjs";
 
 interface VtuberSearchProps {
   vtubers: (Vtuber & { is_oshi?: boolean })[]
@@ -16,7 +18,7 @@ export default function VtuberSearch(props: VtuberSearchProps) {
   const [search, setSearch] = useState("")
   const [vtubers, setVtubers] = useState(props.vtubers)
 
-  const { data, refetch: refetchVtubers, isLoading } = api.vtuber.search.useQuery({ search: search });
+  const { data, isLoading } = api.vtuber.search.useQuery({ search: search });
   const { mutate: setAsOshi } = api.vtuber.setAsOshi.useMutation();
 
   const setVtuberAsOshi = async (vtuber: Vtuber & { is_oshi?: boolean }) => {
@@ -49,7 +51,14 @@ export default function VtuberSearch(props: VtuberSearchProps) {
       {vtubers.map(vtuber => <div className="odd:bg-neutral-900/50 p-4 flex gap-4 items-center hover:bg-neutral-900 transition-all" key={JSON.stringify(vtuber.id)}>
         <div>
           <div className="h-8 w-8 rounded-full bg-neutral-900 overflow-hidden border-2 border-white/15">
-            {/* <Image src={vtuber.profile_image_url || null} height={200} width={200} alt={vtuber.twitch_login}></Image> */}
+            {!!vtuber.profile_image_url &&
+              <Image src={vtuber.profile_image_url ?? ""} height={200} width={200} alt={vtuber.twitch_login}></Image>
+            }
+            {
+              !vtuber.profile_image_url && <div className="flex items-center justify-center w-full h-full text-center font-display font-bold italic text-sm text-neutral-700">
+                {vtuber.twitch_login.split('_').map(str => str.charAt(0).slice(0, 1))}
+              </div>
+            }
           </div>
         </div>
         <span className="font-bold select-none text-sm">{vtuber.display_name || vtuber.twitch_login}</span>
@@ -58,10 +67,13 @@ export default function VtuberSearch(props: VtuberSearchProps) {
           <Link href={`https://twitch.tv/${vtuber.twitch_login}`} className="text-xs">twitch.tv/{vtuber.twitch_login}</Link>
         </div>
         <div className="grow" />
-        <div className="hover:bg-neutral-800 p-2 rounded-lg cursor-pointer" onClick={() => setVtuberAsOshi(vtuber)}>
-          {!vtuber.is_oshi && <StarsIcon strokeWidth={1} size={20} />}
-          {!!vtuber.is_oshi && <StarsIcon strokeWidth={2} fill="white" size={20} />}
-        </div>
+        <SignedIn>
+
+          <div className="hover:bg-neutral-800 p-2 rounded-lg cursor-pointer" onClick={() => setVtuberAsOshi(vtuber)}>
+            {!vtuber.is_oshi && <StarsIcon strokeWidth={1} size={20} />}
+            {!!vtuber.is_oshi && <StarsIcon strokeWidth={2} fill="white" size={20} />}
+          </div>
+        </SignedIn>
       </div>)}
     </div>}
   </div>
