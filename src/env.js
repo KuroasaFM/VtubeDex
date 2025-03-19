@@ -7,6 +7,8 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
+    DB_USER: z.string(),
+    DB_PASSWORD: z.string(),
     NODE_ENV: z.enum(["development", "test", "production"]),
   },
 
@@ -24,6 +26,8 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    DB_USER: process.env.DB_USER,
     NODE_ENV: process.env.NODE_ENV,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
