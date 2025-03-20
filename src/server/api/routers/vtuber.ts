@@ -22,7 +22,7 @@ export const vtuberRouter = createTRPCRouter({
       return vtubers;
     }
     const [oshis] = await db.query<[string[]]>("SELECT value(follows) FROM follows WHERE user = $user", { user: user.username })
-    const [vtubers] = await db.query<[Vtuber[]]>("SELECT *, $oshis CONTAINS twitch_login AS is_oshi from vtuber where string::matches(twitch_login,$search) and isHidden != true", { search: input.search ?? "", oshis });
+    const [vtubers] = await db.query<[Vtuber[]]>("SELECT *, $oshis CONTAINS twitch_login AS is_oshi from vtuber where twitch_login CONTAINS string::lowercase($search) and isHidden != true", { search: input.search ?? "", oshis });
     return vtubers;
   }),
   findOne: publicProcedure.input(z.object({ login: z.string() })).query(async ({ input }) => {
