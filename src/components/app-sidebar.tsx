@@ -53,12 +53,12 @@ export async function AppSidebar() {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
-        <div className="p-2 flex items-end">
+        <Link href={"/"} className="p-2 flex items-end">
           <div className="text-2xl font-display font-bold italic tracking-tighter select-none text-neutral-500 hover:text-neutral-400 transition-all">
             VtubeDex
           </div>
           <Badge variant={"outline"} className="scale-90">αlpha</Badge>
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         {
@@ -68,10 +68,10 @@ export async function AppSidebar() {
         <SidebarGroup >
           <SidebarMenu>
             {sidebarItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
+              <SidebarMenuItem key={item.title} className="-mb-1">
                 <SidebarMenuButton asChild>
                   <Link href={item.href} className="">
-                    <item.icon />
+                    <item.icon className="text-neutral-500" strokeWidth={2.2} size={6} />
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -88,7 +88,8 @@ export async function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href="/dashboard">
-                    <LayoutDashboardIcon />
+                    <LayoutDashboardIcon size={6} strokeWidth={2.2} className="text-neutral-500" />
+
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
@@ -106,7 +107,7 @@ export async function AppSidebar() {
         <SignedIn>
           <DropdownMenu>
 
-            <DropdownMenuTrigger className="outline-hidden ring-none p-2 hover:bg-neutral-800/50 transition-all rounded-lg cursor-pointer flex items-center">
+            <DropdownMenuTrigger className="outline-hidden ring-none p-3 hover:bg-neutral-950/20 transition-all rounded-lg cursor-pointer flex items-center shadow-border-pbr">
               <div className="flex flex-col gap-2 w-full ">
                 <div className="flex flex-row items-center gap-2">
                   {user && <Image src={user.imageUrl} alt="userprofile" width={100} height={100} className="w-10 h-10 select-none rounded-full border-2 border-zinc-50/25 box-border" />

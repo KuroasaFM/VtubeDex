@@ -30,11 +30,11 @@ export default function DashboardHome() {
     }
     {
       !!user?.publicMetadata.has_imported_channel &&
-      <div className="rounded-lg bg-neutral-900 flex items-center gap-4 p-4">
-        <div className="h-8 w-8 rounded-full bg-neutral-900 overflow-hidden border-2 border-white/15">
+      <div className="rounded-lg bg-neutral-900 flex items-center gap-4 p-4 shadow-border-pbr">
+        <div className="h-10 w-10 rounded-full bg-neutral-900 overflow-hidden border-2 border-white/15">
           {vtuber && <Image src={vtuber.profile_image_url} height={200} width={200} alt={vtuber.twitch_login}></Image>}
         </div>
-        <span className="flex gap-1 items-center">
+        <span className="flex gap-1 items-center text-lg text-neutral-300">
           <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2800"><path fill="#fff" d="m2200 1300-400 400h-400l-350 350v-350H600V200h1600z" /><g fill="#9146ff"><path d="M500 0 0 500v1800h600v500l500-500h400l900-900V0H500zm1700 1300-400 400h-400l-350 350v-350H600V200h1600v1100z" /><path d="M1700 550h200v600h-200zm-550 0h200v600h-200z" /></g></svg>
           {vtuber?.display_name}
         </span>
@@ -53,14 +53,14 @@ export default function DashboardHome() {
         }
         <div className="grow" />
         <Link href={"/dashboard/channel"}>
-          <Button className="self-end cursor-pointer" variant={'secondary'}><TvIcon /> Ma Chaine</Button>
+          <Button className="self-end cursor-pointer" variant={'pbr'}><TvIcon /> Ma Chaine</Button>
         </Link>
       </div>
     }
 
     <div>
       <div className="grid grid-cols-2 gap-8">
-        <div className="bg-neutral-900 rounded-lg p-8">
+        <div className="bg-neutral-900 rounded-lg p-8 shadow-border-pbr">
           <h2 className="text-xl font-display font-bold italic tracking-tighter ">Ici prochainement</h2>
           <ul className="list-disc list-inside text-neutral-500 my-4">
             <li>Editer votre page Wiki VtubeDex</li>
