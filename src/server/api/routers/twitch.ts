@@ -30,6 +30,34 @@ export const twitchRouter = createTRPCRouter({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return response.data
   }),
+  reimportAllUsers: publicProcedure.query(async () => {
+
+    const vtubers = await db.select<Vtuber>("vtuber");
+
+
+    const response = await twitch.get<{ data: TwitchUser[] }>("/users", {
+      params: {
+        login: vtubers.map(vtuber => vtuber.twitch_login)
+      }
+    })
+
+    for (const vtuber of vtubers) {
+      const vtuber_data = response.data.data.find((data) => vtuber.twitch_login === data.login);
+      console.log(vtuber_data);
+
+      const result = await db.query(`
+UPDATE vtuber
+    SET
+        profile_image_url = $profile_image_url,
+        display_name = $display_name
+    WHERE
+        twitch_login = $login`
+        , { ...vtuber_data })
+      console.log(result);
+    }
+
+
+  }),
   importUser: authedProcedure.input(z.object({
     login: z.string()
   })).mutation(async ({ input, ctx: { user } }) => {

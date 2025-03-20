@@ -37,12 +37,12 @@ export default async function Home() {
           {
             streams.map((stream) => <Stream data={stream} key={stream.id} />)
           }
-          <Link className="bg-neutral-900 hover:bg-neutral-800 rounded-lg flex flex-col justify-center items-center hover:text-neutral-600 text-neutral-700 transition-all !w-40 p-4" href={"/streams"}>
-            <div>
-              <PlusIcon size={32} />
-            </div>
-            <div className="text-center">Voir plus de streams</div>
-          </Link>
+          {/* <Link className="bg-neutral-900 hover:bg-neutral-800 rounded-lg flex flex-col justify-center items-center hover:text-neutral-600 text-neutral-700 transition-all !w-40 p-4" href={"/streams"}> */}
+          {/*   <div> */}
+          {/*     <PlusIcon size={32} /> */}
+          {/*   </div> */}
+          {/*   <div className="text-center">Voir plus de streams</div> */}
+          {/* </Link> */}
         </div>
       </div>
     </div >

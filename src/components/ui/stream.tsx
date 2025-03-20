@@ -37,6 +37,7 @@ export default function Stream({ data }: { data: Stream }) {
 
   return <Link className="flex flex-col relative group bg-neutral-900 rounded-lg cursor-pointer" href={`https://twitch.tv/${data.user_login}`}>
     <div className="aspect-video absolute w-full z-20" onMouseMove={animatePreview} onMouseLeave={leave} />
+
     <div ref={preview} className="aspect-video w-full transform-gpu transform-3d perspective-midrange perspective-origin-center group-hover:scale-105 transition-all ease-out" >
       <div style={{ transform: `rotateX(${y}deg) rotateY(${x}deg)` }} className=
         "rotate-z-0 aspect-video relative  overflow-hidden cursor-pointer drop-shadow-md group-hover:drop-shadow-xl rounded-lg before:rounded-lg before:z-10 before:bg-transparent before:absolute before:h-full before:w-full before:block before-rounded-lg before:inset-shadow-sm before:inset-shadow-neutral-50/50 before:mix-blend-lighten before:ring before:ring-neutral-50/10 before:inset-ring-neutral-50 before:shadow-inner"
