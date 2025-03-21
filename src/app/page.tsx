@@ -32,8 +32,8 @@ export default async function Home() {
             <ul className="list-disc list-inside text-sm text-neutral-400">
               <li>Suivez vos Oshis</li>
               <li>Partagez vos streams</li>
-              <li>Découvrez d'autres Vtubers francophones</li>
-              <li>Et plein d'autres trucs a venir ! (Emissions, Groupes, Evenements ...)</li>
+              <li>Découvrez d&apos;autres Vtubers francophones</li>
+              <li>Et plein d&apos;autres trucs a venir ! (Emissions, Groupes, Evenements ...)</li>
             </ul>
           </div>
 
