@@ -85,11 +85,10 @@ export async function AppSidebar() {
             !!user?.publicMetadata.has_imported_channel &&
             <SidebarGroup>
               <SidebarGroupLabel>Mon Vtubedex</SidebarGroupLabel>
-              <SidebarMenuItem>
+              <SidebarMenuItem className="list-none">
                 <SidebarMenuButton asChild>
                   <Link href="/dashboard">
                     <LayoutDashboardIcon size={6} strokeWidth={2.2} className="text-neutral-500" />
-
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
@@ -101,7 +100,7 @@ export async function AppSidebar() {
       <SidebarFooter>
         <SignedOut>
           <SignInButton>
-            <Button variant="ghost">Connexion</Button>
+            <Button variant="pbr">Connexion</Button>
           </SignInButton>
         </SignedOut>
         <SignedIn>
