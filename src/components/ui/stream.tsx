@@ -20,7 +20,7 @@ export default function Stream({ data }: { data: Stream }) {
     const bounds = preview.current?.getBoundingClientRect();
     if (!bounds) throw new Error("NO BOUNDS");
     const y = lerp(5, -5, (event.clientY - bounds.top) / bounds.height).toFixed(1);
-    const light = lerp(55, 45, (event.clientY - bounds.top) / bounds.height).toFixed(1);
+    const light = lerp(60, 40, (event.clientY - bounds.top) / bounds.height).toFixed(1);
     const x = lerp(-3, 3, (event.clientX - bounds.left) / bounds.width).toFixed(1);
     setX(x)
     setY(y)
@@ -35,7 +35,7 @@ export default function Stream({ data }: { data: Stream }) {
 
   if (!data) return;
 
-  return <Link className="flex flex-col relative group bg-neutral-900 rounded-lg cursor-pointer" href={`https://twitch.tv/${data.user_login}`}>
+  return <Link className="flex flex-col relative group bg-neutral-900/50 backdrop-blur-lg rounded-lg cursor-pointer" href={`https://twitch.tv/${data.user_login}`}>
     <div className="aspect-video absolute w-full z-20" onMouseMove={animatePreview} onMouseLeave={leave} />
 
     <div ref={preview} className="aspect-video w-full transform-gpu transform-3d perspective-midrange perspective-origin-center group-hover:scale-105 transition-all ease-out" >
@@ -54,12 +54,12 @@ export default function Stream({ data }: { data: Stream }) {
             <UserIcon className="group-hover:text-neutral-400 transition-all ease-in-out" height={10} width={10} />
           </div>
         </div>
-        <div className="flex z-20 absolute bottom-2 left-2 gap-2 ">
+        <div className="flex z-20 absolute bottom-2 left-2 gap-2">
           <div className="bg-neutral-800/55 flex backdrop-blur-xs rounded-md items-center text-neutral-300">
             <div className="bg-neutral-800/55  p-2 rounded-md">
               <Gamepad2Icon height={16} width={16} className="" />
             </div>
-            <span className="text-xs px-2 font-display italic font-bold tracking-tighter">{data.game_name}</span>
+            <span className="text-xs px-2 font-display italic font-bold tracking-tighter truncate ">{data.game_name}</span>
           </div>
         </div>
         <div className="z-5 w-full h-1/6 bg-gradient-to-t from-transparent to-white/50 absolute top-0 left-0 mix-blend-overlay" />
