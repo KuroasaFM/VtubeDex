@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: proxima-nova, var(--font-geist-sans), ui-sans-serif, system-ui,
+  --font-sans: "Funnel Display", proxima-nova, var(--font-geist-sans), ui-sans-serif, system-ui,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
   --font-display: parity-sans;
@@ -56,6 +56,16 @@
   --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+
+
+  --shadow-border-pbr: 
+     inset 0 1px 1px 0 #ffffff79, /* TOP PART */
+     inset 0 -1px 2px 0 #82828233, /* BOTTOM PART */
+     inset 0 0 8px 0 #0000004d,/* AMBIENT OCCLUSION ? */
+     0 10px 12px -8px #0009;/* SHADOW */
+   
+
 }
 
 /*
@@ -140,6 +150,8 @@
     --sidebar-ring: 217.2 91.2% 59.8%
   }
 }
+
+
 @layer base {
   * {
     @apply border-border;

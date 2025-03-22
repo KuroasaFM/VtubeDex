@@ -41,6 +41,8 @@ export default async function RootLayout({
       <html lang="en" className={`${GeistSans.variable} dark`}>
         <head>
           <link rel='stylesheet' href='https://use.typekit.net/yax3yrb.css' />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </head>
         <body>
