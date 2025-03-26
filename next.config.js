@@ -9,15 +9,15 @@ const config = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'img.clerk.com'
+        protocol: "https",
+        hostname: "img.clerk.com",
       },
       {
-        protocol: 'https',
-        hostname: 'static-cdn.jtvnw.net'
-      }
-    ]
-  }
+        protocol: "https",
+        hostname: "static-cdn.jtvnw.net",
+      },
+    ],
+  },
 };
 
 export default config;

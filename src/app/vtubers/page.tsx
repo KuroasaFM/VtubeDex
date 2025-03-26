@@ -1,15 +1,18 @@
 import VtuberSearch from "./components/vtuberSearch";
 
 export const metadata = {
-  title: "Vtubers | VtubeDex"
-}
+  title: "Vtubers | VtubeDex",
+};
 
 export default async function Vtubers() {
-
-  return <div className="px-8 flex flex-col gap-4 @container container mx-auto">
-    <div className="grow flex items-center justify-center mt-2 mb-2 text-xl">
-      <span className="font-bold font-display italic select-none">Vtubers</span>
+  return (
+    <div className="@container container mx-auto flex flex-col gap-4 px-8">
+      <div className="mt-2 mb-2 flex grow items-center justify-center text-xl">
+        <span className="font-display font-bold italic select-none">
+          Vtubers
+        </span>
+      </div>
+      <VtuberSearch vtubers={[]} />
     </div>
-    <VtuberSearch vtubers={[]} />
-  </div>
+  );
 }

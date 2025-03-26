@@ -13,7 +13,7 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   twitch: twitchRouter,
   streams: streamsRouter,
-  vtuber: vtuberRouter
+  vtuber: vtuberRouter,
 });
 
 // export type definition of API

@@ -36,9 +36,6 @@ export const postRouter = createTRPCRouter({
     }),
 
   test: publicProcedure.query(async () => {
-
-
-
     const response = await db.select("vtuber");
     return response;
   }),
