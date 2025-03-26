@@ -143,9 +143,9 @@ export default function DashboardChannel() {
                   <Button
                     color="red"
                     disabled={isImportButtonLocked}
-                    onClick={(e) => {
+                    onClick={async (e) => {
                       e.preventDefault();
-                      importer();
+                      await importer();
                     }}
                   >
                     Inscrire ma chaine twitch
