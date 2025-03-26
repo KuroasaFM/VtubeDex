@@ -231,7 +231,7 @@ export async function AppSidebar() {
               )}
               {!user?.publicMetadata.has_imported_channel && (
                 <div>
-                  <Link href={"/dashboard"}>
+                  <Link href={"/dashboard/channel"}>
                     <DropdownMenuItem>
                       <ImportIcon /> Importer ma chaine twitch{" "}
                     </DropdownMenuItem>
