@@ -106,11 +106,11 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
 export const authedProcedure = publicProcedure.use(async (opts) => {
   const user = await currentUser();
 
-  if (!user) throw new Error('UNAUTHORIZED');
+  if (!user) throw new Error("UNAUTHORIZED");
 
   return opts.next({
     ctx: {
-      user
-    }
-  })
-})
+      user,
+    },
+  });
+});
