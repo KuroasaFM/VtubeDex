@@ -1,5 +1,5 @@
 export type Follow = {
   id: string;
-  follows: string
-  user: string
-}
+  follows: string;
+  user: string;
+};
