@@ -23,15 +23,17 @@ export default function Faq() {
             <li>Comment est-ce que je fait pour découvrir le Vtubing FR ?</li>
             <li>Comment je fait pour interagir avec des vtubers fr ?</li>
             <li>
-              Qu&apos;est ce qu'il se passe en ce moment dans le Vtubing FR ?
+              Qu&apos;est ce qu&apos;il se passe en ce moment dans le Vtubing FR
+              ?
             </li>
           </ul>
 
           <div className="mb-4 text-sm font-light text-neutral-400">
-            Pendant longtemps, la réponse a ces questions c&apos;était "Va sur
-            twitter et check le hashtag #VtuberFr". Le probleme c&apos;est
-            qu&apos;aujourd'hui, avec les pitreries de Musk et la multiplication
-            des plateformes de microblogging, ça n&apos;est plus si évident.
+            Pendant longtemps, la réponse a ces questions c&apos;était &ldquo;Va
+            sur twitter et check le hashtag #VtuberFr&ldquo;. Le probleme
+            c&apos;est qu&apos;aujourd&apos;hui, avec les pitreries de Musk et
+            la multiplication des plateformes de microblogging, ça n&apos;est
+            plus si évident.
           </div>
           <div className="mb-4 text-sm font-light text-neutral-400">
             L&apos;objectif du VtubeDex est donc de fournir une plateforme
