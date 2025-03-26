@@ -6,6 +6,7 @@
 import { useUser } from "@clerk/nextjs";
 import { CircleX, LoaderCircleIcon, SlashIcon } from "lucide-react";
 import Image from "next/image";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Breadcrumb,
@@ -22,26 +23,38 @@ import { api } from "~/trpc/react";
 
 export default function DashboardChannel() {
   const { user } = useUser();
+  const router = useRouter();
 
   const {
     mutateAsync: importUser,
-    isIdle,
     isError,
     isPending,
   } = api.twitch.importUser.useMutation();
 
-  const { mutateAsync: setHidden, data: new_vtuber } =
+  const { mutateAsync: setHidden, data: vtuber_updated_after_setHidden } =
     api.vtuber.setHidden.useMutation();
 
   const current_vtuber = useUserStore((s) => s.current_vtuber);
   const setVtuber = useUserStore((s) => s.setVtuber);
 
-  const importer = async () => {
-    await importUser({ login: user!.username ?? "" });
-    await user?.reload();
+  const importer = async (e: Event) => {
+    e.preventDefault();
+    console.log("A");
+    const vtuber = await importUser({ login: user!.username ?? "" });
+    console.log("B");
+    console.log(user);
+    console.log(isError);
+    if (user && !isError && !!vtuber) {
+      console.log("C");
+      setVtuber(vtuber);
+      await user?.reload();
+      console.log("D");
+      router.push("/dashboard");
+    }
   };
 
   const [show_import, setShowImport] = useState(false);
+  const [isImportButtonLocked, setImportButtonLocked] = useState(true);
   useEffect(() => {
     setShowImport(!user?.publicMetadata.has_imported_channel);
   }, [user]);
@@ -58,12 +71,10 @@ export default function DashboardChannel() {
   };
 
   useEffect(() => {
-    if (new_vtuber) {
-      console.log(new_vtuber);
-
-      setVtuber(new_vtuber);
+    if (vtuber_updated_after_setHidden) {
+      setVtuber(vtuber_updated_after_setHidden);
     }
-  }, [new_vtuber]);
+  }, [vtuber_updated_after_setHidden]);
 
   if (!user) return <div></div>;
 
@@ -129,10 +140,18 @@ export default function DashboardChannel() {
                     </span>
 
                     <div className="flex w-64 items-center justify-center border-l border-purple-800">
-                      <Checkbox />
+                      <Checkbox
+                        onCheckedChange={(checked) =>
+                          setImportButtonLocked(!checked)
+                        }
+                      />
                     </div>
                   </div>
-                  <Button color="red" onClick={importer}>
+                  <Button
+                    color="red"
+                    disabled={isImportButtonLocked}
+                    onClick={importer}
+                  >
                     Inscrire ma chaine twitch
                   </Button>
                   {isError && (
