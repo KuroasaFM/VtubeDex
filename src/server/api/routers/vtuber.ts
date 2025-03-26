@@ -21,7 +21,7 @@ export const vtuberRouter = createTRPCRouter({
       const user = await currentUser();
       if (!user) {
         const [vtubers] = await db.query<[Vtuber[]]>(
-          "SELECT * from vtuber where string::matches(twitch_login,$search) and isHidden != true",
+          "SELECT * from vtuber where twitch_login CONTAINS string::lowercase($search) and isHidden != true",
           { search: input.search ?? "" },
         );
         return vtubers;

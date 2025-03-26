@@ -3,15 +3,16 @@ import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { type TwitchUser } from "../types/twitch";
 import db from "~/server/db";
-import { jsonify, RecordId } from "surrealdb";
+import { RecordId } from "surrealdb";
 import { type Vtuber } from "../schemas/vtuber";
-import { currentUser, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 
 export const twitchRouter = createTRPCRouter({
   users: publicProcedure.query(async () => {
+    const vtubers = await db.select<Vtuber>("vtuber");
     const response = await twitch.get<{ data: TwitchUser[] }>("/users", {
       params: {
-        login: "neonkuroasa",
+        login: vtubers.map((vtuber) => vtuber.twitch_login),
       },
     });
 
@@ -41,7 +42,6 @@ export const twitchRouter = createTRPCRouter({
       const vtuber_data = response.data.data.find(
         (data) => vtuber.twitch_login === data.login,
       );
-      console.log(vtuber_data);
 
       const result = await db.query(
         `

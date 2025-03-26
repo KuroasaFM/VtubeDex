@@ -37,8 +37,6 @@ const updateStreamCache = async () => {
   await db.delete("streams");
   const vtubers = await db.select<Vtuber>("vtuber");
 
-  console.log(vtubers);
-
   const streams: TwitchStream[] = [];
 
   do {
@@ -52,6 +50,7 @@ const updateStreamCache = async () => {
   } while (vtubers.length > 1);
 
   for (const stream of streams) {
+    // TODO: Y'a probablement plus efficace que ça a faire
     await db.create<Stream>("streams", stream);
   }
 };
