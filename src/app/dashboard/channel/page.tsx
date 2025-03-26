@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { CircleX, LoaderCircleIcon, SlashIcon } from "lucide-react";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -37,18 +37,11 @@ export default function DashboardChannel() {
   const current_vtuber = useUserStore((s) => s.current_vtuber);
   const setVtuber = useUserStore((s) => s.setVtuber);
 
-  const importer = async (e: Event) => {
-    e.preventDefault();
-    console.log("A");
+  const importer = async () => {
     const vtuber = await importUser({ login: user!.username ?? "" });
-    console.log("B");
-    console.log(user);
-    console.log(isError);
     if (user && !isError && !!vtuber) {
-      console.log("C");
       setVtuber(vtuber);
       await user?.reload();
-      console.log("D");
       router.push("/dashboard");
     }
   };
@@ -150,7 +143,10 @@ export default function DashboardChannel() {
                   <Button
                     color="red"
                     disabled={isImportButtonLocked}
-                    onClick={importer}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      importer();
+                    }}
                   >
                     Inscrire ma chaine twitch
                   </Button>

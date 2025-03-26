@@ -1,11 +1,5 @@
 "use client";
-import {
-  CircleIcon,
-  DotIcon,
-  UserIcon,
-  Gamepad2Icon,
-  LucideHandHelping,
-} from "lucide-react";
+import { CircleIcon, DotIcon, UserIcon, Gamepad2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, type MouseEvent } from "react";
