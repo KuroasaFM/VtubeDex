@@ -19,6 +19,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { type Vtuber } from "~/server/api/schemas/vtuber";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { PostHogProvider } from "../components/PostHogProvider";
 
 export const metadata: Metadata = {
   title: "VtubeDex",
@@ -53,20 +54,22 @@ export default async function RootLayout({
           />
         </head>
         <body>
-          <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-              <SidebarTrigger className="absolute m-2" />
-              <TRPCReactProvider>
-                <UserStoreProvider current_vtuber={vtuber}>
-                  <div className="h-full overflow-y-scroll bg-gradient-to-tl from-neutral-900/50 to-transparent">
-                    {children}
-                  </div>
-                  <SpeedInsights />
-                </UserStoreProvider>
-              </TRPCReactProvider>
-            </SidebarInset>
-          </SidebarProvider>
+          <PostHogProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <SidebarTrigger className="absolute m-2" />
+                <TRPCReactProvider>
+                  <UserStoreProvider current_vtuber={vtuber}>
+                    <div className="h-full overflow-y-scroll bg-gradient-to-tl from-neutral-900/50 to-transparent">
+                      {children}
+                    </div>
+                    <SpeedInsights />
+                  </UserStoreProvider>
+                </TRPCReactProvider>
+              </SidebarInset>
+            </SidebarProvider>
+          </PostHogProvider>
         </body>
       </html>
     </ClerkProvider>
