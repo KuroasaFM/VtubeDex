@@ -62,7 +62,7 @@ export default async function Home() {
               />
             </h2>
           </Link>
-          <div className="box-border grid grid-cols-2 gap-4 lg:grid-cols-3">
+          <div className="box-border grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {streams.map((stream) => (
               <Stream data={stream} key={stream.id} />
             ))}
