@@ -1,6 +1,7 @@
 import { SignInButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Stream from "~/components/ui/stream";
+import VtuberList from "~/components/ui/vtuberList";
 import { type Stream as StreamSchema } from "~/server/api/schemas/stream";
 import { api } from "~/trpc/server";
 
@@ -31,22 +32,25 @@ export default async function Streams() {
   const streams = (await api.streams.findFavourites({})).map((stream) => {
     return { ...stream, id: JSON.stringify(stream.id) };
   });
-
+  const oshis = (await api.vtuber.findOshis()).map((oshi) => {
+    return { ...oshi, id: JSON.stringify(oshi.id), is_oshi: true };
+  });
   return (
     <div className="@container container mx-auto flex min-h-full grow flex-col gap-4 px-8">
       <div className="mt-2 mb-2 flex items-center justify-center text-xl">
         <span className="font-display font-bold italic">Mes Oshi</span>
       </div>
-      {streams.length == 0 && (
+      {oshis.length == 0 && (
         <div className="flex grow items-center justify-center">
           <div className="flex max-w-2/3 flex-col gap-2 rounded-lg bg-neutral-900 p-8 lg:max-w-1/2">
             <span className="font-display text-xl font-bold tracking-tighter italic">
-              <span className="not-italic">🤯</span> Pas d&apos;oshi en live !
+              <span className="not-italic">🤯</span> Tu n&apos;as pas encore
+              d&apos;oshi !!
             </span>
             <span className="text-justify leading-5">
-              Pour afficher du contenu ici, va donc sur les pages{" "}
-              <em>Stream</em> ou <em>Vtuber</em> et va marquer quelques vtubers
-              comme étant tes Oshi !
+              Pour afficher du contenu ici, va donc sur la page
+              <em>Vtuber</em> et va marquer quelques vtubers comme étant tes
+              Oshi !
             </span>
             <span>Tu pourras alors les retrouver ici !</span>
             <span className="text-xs text-neutral-500">
@@ -57,13 +61,33 @@ export default async function Streams() {
           </div>
         </div>
       )}
-      {!!streams.length && (
-        <div className="grid h-full w-full grid-cols-2 items-center gap-6 @4xl:grid-cols-3">
-          {streams.map((stream: StreamSchema) => (
-            <Stream data={stream} key={stream.id} />
-          ))}
+      <div className="flex flex-col gap-16">
+        <div>
+          <h2 className="font-display mb-2 font-bold tracking-tighter italic">
+            Oshi en live
+          </h2>
+          {!!streams.length && (
+            <div className="grid h-full w-full grid-cols-1 items-center gap-6 @2xl:grid-cols-2 @4xl:grid-cols-3">
+              {streams.map((stream: StreamSchema) => (
+                <Stream data={stream} key={stream.id} />
+              ))}
+            </div>
+          )}
+          {!streams.length && (
+            <div className="flex h-32 items-center justify-center">
+              <div className="m-auto text-neutral-700">
+                🤯 Oh nyo, y&apos;a personne !
+              </div>
+            </div>
+          )}
         </div>
-      )}
+        <div>
+          <h2 className="font-display mb-2 font-bold tracking-tighter italic">
+            Tous mes Oshi
+          </h2>
+          <VtuberList vtubers={oshis} />
+        </div>
+      </div>
     </div>
   );
 }
