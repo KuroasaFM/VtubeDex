@@ -44,8 +44,8 @@ export default async function Streams() {
         <div className="flex grow items-center justify-center">
           <div className="flex max-w-2/3 flex-col gap-2 rounded-lg bg-neutral-900 p-8 lg:max-w-1/2">
             <span className="font-display text-xl font-bold tracking-tighter italic">
-              <span className="not-italic">🤯</span> Tu n'as pas encore d'oshi
-              !!
+              <span className="not-italic">🤯</span> Tu n&apos;as pas encore
+              d&apos;oshi !!
             </span>
             <span className="text-justify leading-5">
               Pour afficher du contenu ici, va donc sur la page
@@ -76,7 +76,7 @@ export default async function Streams() {
           {!streams.length && (
             <div className="flex h-32 items-center justify-center">
               <div className="m-auto text-neutral-700">
-                🤯 Oh nyo, y'a personne !
+                🤯 Oh nyo, y&apos;a personne !
               </div>
             </div>
           )}
