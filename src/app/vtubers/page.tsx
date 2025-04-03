@@ -6,7 +6,7 @@ export const metadata = {
 
 export default async function Vtubers() {
   return (
-    <div className="@container container mx-auto flex flex-col gap-4 px-8">
+    <div className="@container container mx-auto flex flex-col gap-4 px-4 md:px-8">
       <div className="mt-2 mb-2 flex grow items-center justify-center text-xl">
         <span className="font-display font-bold italic select-none">
           Vtubers
