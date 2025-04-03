@@ -66,14 +66,16 @@ export default function VtuberList({ vtubers }: VtuberListProps) {
           <span className="text-sm font-bold select-none">
             {vtuber.display_name || vtuber.twitch_login}
           </span>
-          <div className="group flex gap-1 text-neutral-700 hover:text-neutral-600 hover:underline">
-            <SquareArrowOutUpRightIcon size={16} />
+          <div className="group text-neutral-700 hover:text-neutral-600 hover:underline">
             <Link
               href={`https://twitch.tv/${vtuber.twitch_login}`}
               target="_blank"
-              className="hidden truncate text-xs md:block"
+              className="flex gap-1 truncate text-xs"
             >
-              twitch.tv/{vtuber.twitch_login}
+              <SquareArrowOutUpRightIcon size={16} />
+              <div className="hidden md:block">
+                twitch.tv/{vtuber.twitch_login}
+              </div>
             </Link>
           </div>
           <div className="grow" />
