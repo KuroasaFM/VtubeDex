@@ -67,7 +67,7 @@ export default async function Streams() {
             Oshi en live
           </h2>
           {!!streams.length && (
-            <div className="grid h-full w-full grid-cols-2 items-center gap-6 @4xl:grid-cols-3">
+            <div className="grid h-full w-full grid-cols-1 items-center gap-6 @2xl:grid-cols-2 @4xl:grid-cols-3">
               {streams.map((stream: StreamSchema) => (
                 <Stream data={stream} key={stream.id} />
               ))}
