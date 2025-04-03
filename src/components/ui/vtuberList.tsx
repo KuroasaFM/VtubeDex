@@ -1,5 +1,5 @@
 "use client";
-import { Vtuber } from "~/server/api/schemas/vtuber";
+import { type Vtuber } from "~/server/api/schemas/vtuber";
 import Image from "next/image";
 import { SquareArrowOutUpRightIcon, StarsIcon } from "lucide-react";
 import { SignedIn } from "@clerk/nextjs";
@@ -71,7 +71,7 @@ export default function VtuberList({ vtubers }: VtuberListProps) {
             <Link
               href={`https://twitch.tv/${vtuber.twitch_login}`}
               target="_blank"
-              className="text-xs"
+              className="hidden truncate text-xs md:block"
             >
               twitch.tv/{vtuber.twitch_login}
             </Link>
