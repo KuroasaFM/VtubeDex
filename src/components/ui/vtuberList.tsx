@@ -55,7 +55,7 @@ export default function VtuberList({ vtubers }: VtuberListProps) {
                 ></Image>
               )}
               {!vtuber.profile_image_url && (
-                <div className="font-display flex h-full w-full items-center justify-center text-center font-bold text-neutral-700 italic">
+                <div className="font-display flex h-full w-full items-center justify-center text-center text-xl font-bold text-neutral-700 italic">
                   {vtuber.twitch_login
                     .split("_")
                     .map((str) => str.charAt(0).slice(0, 1))}
@@ -63,7 +63,7 @@ export default function VtuberList({ vtubers }: VtuberListProps) {
               )}
             </div>
           </div>
-          <span className="text-sm font-bold select-none">
+          <span className="text-lg font-bold select-none md:text-sm">
             {vtuber.display_name || vtuber.twitch_login}
           </span>
           <div className="group text-neutral-700 hover:text-neutral-600 hover:underline">

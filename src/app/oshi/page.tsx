@@ -36,7 +36,7 @@ export default async function Streams() {
     return { ...oshi, id: JSON.stringify(oshi.id), is_oshi: true };
   });
   return (
-    <div className="@container container mx-auto flex min-h-full grow flex-col gap-4 px-8">
+    <div className="@container container mx-auto flex min-h-full grow flex-col gap-4 px-4 md:px-8">
       <div className="mt-2 mb-2 flex items-center justify-center text-xl">
         <span className="font-display font-bold italic">Mes Oshi</span>
       </div>
@@ -63,11 +63,11 @@ export default async function Streams() {
       )}
       <div className="flex flex-col gap-16">
         <div>
-          <h2 className="font-display mb-2 font-bold tracking-tighter italic">
+          <h2 className="font-display mb-2 text-2xl font-bold tracking-tighter italic md:text-base">
             Oshi en live
           </h2>
           {!!streams.length && (
-            <div className="grid h-full w-full grid-cols-1 items-center gap-6 @2xl:grid-cols-2 @4xl:grid-cols-3">
+            <div className="grid h-full w-full grid-cols-1 items-center gap-3 transition-all sm:gap-6 @2xl:grid-cols-2 @4xl:grid-cols-3">
               {streams.map((stream: StreamSchema) => (
                 <Stream data={stream} key={stream.id} />
               ))}
@@ -82,7 +82,7 @@ export default async function Streams() {
           )}
         </div>
         <div>
-          <h2 className="font-display mb-2 font-bold tracking-tighter italic">
+          <h2 className="font-display mb-2 text-2xl font-bold tracking-tighter italic md:text-base">
             Tous mes Oshi
           </h2>
           <VtuberList vtubers={oshis} />
