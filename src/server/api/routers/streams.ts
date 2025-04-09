@@ -83,6 +83,14 @@ export const streamsRouter = createTRPCRouter({
           Date.parse(a.started_at) > Date.parse(b.started_at) ? -1 : 1,
         );
     }),
+  findRandom: publicProcedure.query(async () => {
+    await updateStreamCache();
+    const [streams]: Stream[][] = await db.query(
+      "SELECT * FROM streams ORDER BY rand() LIMIT 1",
+    );
+    if (!streams) return undefined;
+    return streams[0];
+  }),
   findFavourites: authedProcedure
     .input(
       z.object({
