@@ -9,9 +9,14 @@ export default function Raids() {
     data: stream,
     refetch,
     isFetching,
-  } = api.streams.findRandom.useQuery(undefined, {
-    initialData: undefined,
-  });
+  } = api.streams.findRandom.useQuery(
+    {
+      max_viewers: 100000,
+    },
+    {
+      initialData: undefined,
+    },
+  );
 
   return (
     <div className="@container container mx-auto flex h-full flex-col gap-4 px-4 md:px-8">
@@ -22,13 +27,13 @@ export default function Raids() {
       </div>
       <div className="flex h-full grow flex-col items-center justify-center gap-8 transition-all">
         {isFetching && (
-          <div className="flex h-96 items-center justify-center text-neutral-800">
+          <div className="flex h-96 items-center justify-center gap-2 text-neutral-600">
             <LoaderCircleIcon className="animate-spin" />
+            <span>A la recherche du meilleur stream...</span>
           </div>
         )}
         {!!stream && !isFetching && (
           <div className="max-w-2xl">
-            {/* {JSON.stringify(stream)} */}
             <Stream data={stream} />
           </div>
         )}
