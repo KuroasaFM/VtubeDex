@@ -89,7 +89,14 @@ export const streamsRouter = createTRPCRouter({
       "SELECT * FROM streams ORDER BY rand() LIMIT 1",
     );
     if (!streams) return undefined;
-    return streams[0];
+    return streams.map((stream) => {
+      const date = Date.parse(stream.started_at);
+      const stream_lenght_millis = Date.now() - date;
+      return {
+        ...stream,
+        length: msToTime(stream_lenght_millis),
+      };
+    })[0];
   }),
   findFavourites: authedProcedure
     .input(

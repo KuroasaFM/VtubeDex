@@ -20,6 +20,7 @@ import {
   ChevronDown,
   ChevronsUpDown,
   DoorOpenIcon,
+  GoalIcon,
   HomeIcon,
   ImportIcon,
   LayoutDashboardIcon,
@@ -145,6 +146,32 @@ export async function AppSidebar() {
             </SidebarGroup>
           )}
         </SignedIn>
+        <SidebarMenu>
+          <Collapsible className="group/collapsible">
+            <SidebarGroup>
+              <SidebarGroupLabel asChild>
+                <CollapsibleTrigger className="cursor-pointer hover:bg-neutral-800">
+                  Extras
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarMenuItem className="-mb-1">
+                  <SidebarMenuButton asChild>
+                    <Link href={"/raids"} className="">
+                      <GoalIcon
+                        className="text-neutral-500"
+                        strokeWidth={2.2}
+                        size={6}
+                      />
+                      <span>Raidmachine</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+        </SidebarMenu>
         <SidebarMenu>
           <Collapsible className="group/collapsible">
             <SidebarGroup>
