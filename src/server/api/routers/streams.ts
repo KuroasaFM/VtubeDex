@@ -2,13 +2,12 @@ import db from "~/server/db";
 import { authedProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { type Stream } from "../schemas/stream";
 import { z } from "zod";
-import { currentUser } from "@clerk/nextjs/server";
 import { type Follow } from "../schemas/follows";
 import twitch from "~/server/twitch";
 import { type State } from "../schemas/states";
 import { type Vtuber } from "../schemas/vtuber";
 import { type TwitchStream } from "../types/twitch";
-import { jsonify, RecordId } from "surrealdb";
+import { RecordId } from "surrealdb";
 
 const updateStreamCache = async () => {
   const response = await db.select<State>(
@@ -83,6 +82,30 @@ export const streamsRouter = createTRPCRouter({
           Date.parse(a.started_at) > Date.parse(b.started_at) ? -1 : 1,
         );
     }),
+
+  findRandom: publicProcedure
+    .input(z.object({ max_viewers: z.number() }))
+    .query(async ({ input }) => {
+      console.log("🪚 input:", JSON.stringify(input, null, 2));
+      await updateStreamCache();
+      const [streams]: Stream[][] = await db.query(
+        "SELECT * FROM streams WHERE viewer_count <= $max_viewers ORDER BY rand() LIMIT 1",
+        { max_viewers: input.max_viewers },
+      );
+
+      console.log("🪚 streams:", JSON.stringify(streams, null, 2));
+
+      if (!streams) return undefined;
+      return streams.map((stream) => {
+        const date = Date.parse(stream.started_at);
+        const stream_lenght_millis = Date.now() - date;
+        return {
+          ...stream,
+          length: msToTime(stream_lenght_millis),
+        };
+      })[0];
+    }),
+
   findFavourites: authedProcedure
     .input(
       z.object({
